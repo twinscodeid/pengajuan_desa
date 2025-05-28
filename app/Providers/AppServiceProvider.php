@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Repositories\Eloquent\SuratIjinKegiatanRepository;
+use App\Repositories\Interfaces\SuratIjinKegiatanRepositoryInterface;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -11,7 +14,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Register the SuratIjinKegiatanRepositoryInterface to its implementation
+        $this->app->bind(SuratIjinKegiatanRepositoryInterface::class, SuratIjinKegiatanRepository::class);
     }
 
     /**
