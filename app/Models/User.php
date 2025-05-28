@@ -46,4 +46,13 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function suratIjinKegiatan()
+    {
+        return $this->hasMany(SuratIjinKegiatan::class);
+    }
+    public function pelaporanMasyarakat()
+    {
+        return $this->hasMany(PelaporanMasyarakat::class);
+    }
 }
