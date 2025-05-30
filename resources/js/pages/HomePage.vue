@@ -10,7 +10,13 @@ import { Head, Link } from '@inertiajs/vue3';
         <header class="flex items-center justify-between bg-white p-6 shadow-md">
             <div class="text-xl font-bold">Logo</div>
               <img src="#" alt="" class="" />
-            <div>
+              <div v-if="$page.props.auth.user?.role === 'user'">
+                  <Link :href="route('dashboard.index.user')" class="text-blue-600 hover:underline">Dashboard</Link>
+              </div>
+              <div v-else-if="$page.props.auth.user?.role === 'admin'">
+                  <Link :href="route('dashboard.index.admin')" class="text-blue-600 hover:underline">Dashboard</Link>
+              </div>
+            <div v-else>
                 <Link href="/register" class="mr-5 text-blue-600 hover:underline">Register</Link>
                 <Link href="/login" class="text-blue-600 hover:underline">Login</Link>
             </div>

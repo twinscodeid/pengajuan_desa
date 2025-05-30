@@ -5,8 +5,9 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import type { DefineComponent } from 'vue';
 import { createApp, h } from 'vue';
 import { ZiggyVue } from 'ziggy-js';
-import '../css/FormPengajuan.css';
 import { initializeTheme } from './composables/useAppearance';
+import 'viewerjs/dist/viewer.css'
+import VueViewer from 'v-viewer'
 
 // Extend ImportMeta interface for Vite...
 declare module 'vite/client' {
@@ -30,6 +31,7 @@ createInertiaApp({
         createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
+            .use(VueViewer)
             .mount(el);
     },
     progress: {

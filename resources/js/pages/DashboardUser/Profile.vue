@@ -1,64 +1,32 @@
+                <script setup lang="ts">
+                import { Head, Link } from '@inertiajs/vue3';
+                import { ref } from 'vue';
+
+                const form = ref({
+                    name: '',
+                })
+                </script>
 <template>
     <div class="page-wrapper">
         <div class="container">
+            <div class="flex gap-2 items-center text-blue-500">
+                <p>🔵</p>
+                <Link :href="route('dashboard.index.user')" class="cursor-pointer hover:underline">Kembali</Link>
+            </div>
+
             <h2 class="title">Profil Pengguna</h2>
 
-            <form @submit.prevent="saveProfile">
+            <form @submit.prevent="">
                 <div class="form-group">
                     <label for="name">Nama:</label>
-                    <input id="name" type="text"class="border" v-model="user.name" required />
+                    <input id="name" type="text" class="border" v-model="form.name" required />
                 </div>
-
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input id="email" type="email" class="border" v-model="user.email" required />
-                </div>
-
-                <div class="form-group">
-                    <label for="address">Alamat:</label>
-                    <textarea id="address" class="border" v-model="user.address" required></textarea>
-                </div>
-
                 <button type="submit">Simpan Profil</button>
             </form>
-
-            <div v-if="message" class="message">
-                {{ message }}
-            </div>
         </div>
     </div>
 </template>
 
-<script>
-export default {
-    data() {
-        return {
-            user: {
-                name: '',
-                email: '',
-                address: '',
-            },
-            message: '',
-        };
-    },
-    methods: {
-        saveProfile() {
-            // Contoh: hanya menampilkan pesan dan reset form
-            if (!this.user.name || !this.user.email || !this.user.address) {
-                this.message = 'Semua field harus diisi!';
-                return;
-            }
-
-            this.message = `Profil berhasil disimpan! Nama: ${this.user.name}, Email: ${this.user.email}, Alamat: ${this.user.address}`;
-
-            // Reset form
-            this.user.name = '';
-            this.user.email = '';
-            this.user.address = '';
-        },
-    },
-};
-</script>
 
 <style>
 .form-group {
