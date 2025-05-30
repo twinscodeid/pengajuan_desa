@@ -7,6 +7,9 @@ use App\Models\ImageSuratPengantarRTRW;
 use App\Repositories\Interfaces\SuratIjinKegiatanRepositoryInterface;
 use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Mail\SuratIjinKegiatanMail;
+use App\Mail\IjinKegiatan;
+use Illuminate\Support\Facades\Mail;
 
 class SuratIjinKegiatanService
 {
@@ -35,21 +38,38 @@ class SuratIjinKegiatanService
             'tujuan_kegiatan' => $data['tujuan_kegiatan'],
         ]);
 
-        // add image pengantar rt rw
-        if (isset($data['image_pengantar_rt_rw']) && is_array($data['image_pengantar_rt_rw'])) {
-            if (count($data['image_pengantar_rt_rw']) > 2) {
+
+
+        if (isset($data['image_pengantar_rt_rw']) && !empty($data['image_pengantar_rt_rw'])) {
+            $images = $data['image_pengantar_rt_rw'];
+
+            // Jika form mengirim dengan name="image_pengantar_rt_rw[]"
+            if (!is_array($images)) {
+                $images = [$images];
+            }
+
+            // Filter hanya file yang valid
+            $validImages = array_filter($images, function ($image) {
+                return $image && $image->isValid();
+            });
+
+            if (count($validImages) > 2) {
                 throw new \Exception('Jumlah gambar tidak boleh lebih dari 2');
             }
-            if (count($data['image_pengantar_rt_rw']) < 1) {
-                throw new \Exception('harus surat pengantar dari RT dan RW');
+            if (count($validImages) < 1) {
+                throw new \Exception('Harus ada surat pengantar dari RT dan RW');
             }
-            foreach ($data['image_pengantar_rt_rw'] as $image) {
+
+            foreach ($validImages as $image) {
+                $imagePath = $image->store('surat_pengantar_rt_rw', 'local');
+
                 ImageSuratPengantarRTRW::create([
                     'surat_ijin_kegiatan_id' => $createdSuratIjinKegiatan->id,
-                    'image_path' => Storage::disk('local')->putFile('surat_pengantar_rt_rw', $image),
+                    'image_path' => $imagePath,
                 ]);
             }
         }
+
         return $createdSuratIjinKegiatan;
     }
 
@@ -115,13 +135,10 @@ class SuratIjinKegiatanService
 
     public function generataPdfSuratIjinKegiatan($data)
     {
-        // $pdf = PDF::loadView('surat_ijin_kegiatan.pdf', $data);
-        // return $pdf->download('surat_ijin_kegiatan.pdf');
-    }
+        $pdf = Pdf::loadView('surat_ijin_kegiatan.pdf', ['data' => $data]);
 
-    public function sendEmailSuratIjinKegiatan($data)
-    {
-        $pdf = PDF::loadView('surat_ijin_kegiatan.pdf', $data);
-        return $pdf->download('surat_ijin_kegiatan.pdf');
+        $filename = 'surat_ijin_kegiatan_' . $data->user->email . '.pdf';
+
+        Storage::disk('local')->put('pdf/' . $filename, $pdf->output());
     }
 }

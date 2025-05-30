@@ -14,7 +14,6 @@ class SuratIjinKegiatan extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|exists:users,id',
             'nama' => 'required|string|max:255',
             'alamat' => 'required|string',
             'tanggal_kegiatan' => 'required|date',
@@ -22,8 +21,8 @@ class SuratIjinKegiatan extends FormRequest
             'no_hp' => 'required|string|max:12',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
             'tujuan_kegiatan' => 'required|string',
-            'image_pengantar_rt_rw' => 'nullable|array',
-            'image_pengantar_rt_rw.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048', // max 2MB per image
+            'image_pengantar_rt_rw' => 'required|array|size:2',
+            'image_pengantar_rt_rw.*' => 'image|mimes:jpeg,png,jpg|max:2048', // max 2MB per image
         ];
     }
 }

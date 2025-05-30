@@ -9,8 +9,13 @@ import AppLogo from './AppLogo.vue';
 
 const mainNavItems: NavItem[] = [
     {
-        title: 'Dashboard',
-        href: '/dashboard',
+        title: 'Dashboard Admin',
+        href: '/dashboard-admin',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Layanan Umum',
+        href: '/layanan-umum',
         icon: LayoutGrid,
     },
 ];
@@ -22,7 +27,7 @@ const mainNavItems: NavItem[] = [
             <SidebarMenu>
                 <SidebarMenuItem>
                     <SidebarMenuButton size="lg" as-child>
-                        <Link :href="route('dashboard')">
+                        <Link :href="route('dashboard.index.admin')">
                             <AppLogo />
                         </Link>
                     </SidebarMenuButton>
