@@ -4,9 +4,15 @@ namespace App\Http\Controllers\SuratIjinKegiatan;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SuratIjinKegiatan;
+use App\Notifications\AdminNotification;
 use Illuminate\Http\Request;
 use App\Services\SuratIjinKegiatanService;
 use Inertia\Inertia;
+use App\Mail\IjinKegiatan;
+use App\Models\User;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
+use App\Notifications\SuratIjinKegiatanNotification;
 
 class SuratIjinKegiatanController extends Controller
 {
@@ -36,6 +42,11 @@ class SuratIjinKegiatanController extends Controller
             $data = $request->validated();
             $data['user_id'] = auth()->user()->id;
             $this->suratIjinKegiatanService->createSuratIjinKegiatan($data);
+
+            // ambil data admin
+            $admin = User::where('role', 'admin')->first();
+            $admin->notify(new AdminNotification($admin));
+
             return redirect()->route('surat-ijin-kegiatan.index')->with('success', 'Surat Ijin Kegiatan berhasil dibuat.');
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $th->getMessage());
@@ -79,7 +90,7 @@ class SuratIjinKegiatanController extends Controller
         }
     }
 
-    public function generatePdf($id)
+    private function generatePdf($id)
     {
         try {
             $SuratIjinKegiatanById = $this->suratIjinKegiatanService->getSuratIjinKegiatanById($id);
@@ -93,7 +104,16 @@ class SuratIjinKegiatanController extends Controller
     {
         try {
             $SuratIjinKegiatanById = $this->suratIjinKegiatanService->getSuratIjinKegiatanById($id);
-            return $this->suratIjinKegiatanService->sendEmailSuratIjinKegiatan($SuratIjinKegiatanById);
+            $this->generatePdf($id);
+            // nama pdf
+            $fileName = "surat_ijin_kegiatan_" . $SuratIjinKegiatanById->user->email . ".pdf";
+            // ambil data pdf
+            $dataPdfUser = Storage::disk('local')->path('pdf/' . $fileName);
+            if (!file_exists($dataPdfUser)) {
+                return redirect()->back()->with('error', 'File PDF tidak ditemukan.');
+            }
+            // Mail::to($SuratIjinKegiatanById->user->email)->send(new IjinKegiatan($SuratIjinKegiatanById, $dataPdfUser));
+            $SuratIjinKegiatanById->user->notify(new SuratIjinKegiatanNotification($SuratIjinKegiatanById, $dataPdfUser));
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $th->getMessage());
         }
