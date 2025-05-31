@@ -1,9 +1,29 @@
 <script setup lang="ts">
 import gambarForm from '@/asset/img/FORM1.png';
-import { SuratIjinKegiatan } from '@/types/general';
-import { Link, useForm } from '@inertiajs/vue3';
-import { reactive } from 'vue';
+import { SuratIjinKegiatan, LaporanMasyarakat } from '@/types/general';
+import { Link, useForm, usePage } from '@inertiajs/vue3';
+import { reactive, watch, computed } from 'vue';
 import { UserCircleIcon } from '@heroicons/vue/24/solid';
+import { notify } from '@kyvg/vue3-notification';
+
+
+// handle notifiation
+const flash = computed(() => usePage().props.flash);
+const errors = computed(() => usePage().props.errors);
+
+watch(flash, (value: any) => {
+  if (value?.success) {
+    notify({
+      title: "Sukses!",
+      text: value.success,
+      type: "success",
+      duration: 3000,
+    });
+  }
+}, { immediate: true });
+
+
+
 const form = reactive({
     selectedOption: '',
 });
@@ -19,6 +39,13 @@ const dataIjinKegiatan = useForm<SuratIjinKegiatan>({
     tujuan_kegiatan: '',
     image_pengantar_rt_rw: [],
 });
+
+const dataLaporanMasyarakat = useForm<LaporanMasyarakat>({
+    nama: '',
+    jenis_kelamin: '',
+    alamat: '',
+    laporan: '',
+})
 
 // method hanlde image
 const handleFiles = (event: Event) => {
@@ -40,13 +67,22 @@ const submitForm = () => {
     if (form.selectedOption === 'izin') {
         dataIjinKegiatan.post(route('surat-ijin-kegiatan.store'), {
             forceFormData: true,
-            preserveScroll: true,
             onSuccess: () => {
                 form.selectedOption = '';
                 dataIjinKegiatan.reset();
             },
             onError: (errors: any) => {
-                console.log(errors);
+                console.log(errors.value);
+            },
+        });
+    } else if (form.selectedOption === 'laporan_masyarakat') {
+        dataLaporanMasyarakat.post(route('laporan-masyarakat.store'), {
+            onSuccess: () => {
+                form.selectedOption = '';
+                dataLaporanMasyarakat.reset();
+            },
+            onError: (errors: any) => {
+                console.log(errors.value);
             },
         });
     }
@@ -55,6 +91,8 @@ const submitForm = () => {
 
 <template>
     <div class="page-wrapper relative min-h-screen">
+        <!-- notifikasi -->
+        <Notifications/>
         <!-- Navbar Mengambang -->
         <nav class="fixed top-0 left-0 z-50 flex w-full items-center justify-between bg-white px-6 py-4 shadow-md">
             <div class="flex items-center gap-4">
@@ -71,15 +109,6 @@ const submitForm = () => {
                     <img :src="gambarForm" alt="Form Gambar" class="h-auto w-full object-cover" />
                 </div>
             </div>
-
-            <!--<div class="lorem-box">
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla convallis nunc a purus interdum, in sollicitudin eros blandit.
-                    Morbi vitae turpis in libero sodales gravida. Fusce porttitor urna a felis imperdiet efficitur. Proin sit amet rutrum metus.
-                    Suspendisse at semper tellus. Integer euismod justo nec libero accumsan, ut mattis turpis pharetra.
-                </p>
-            </div>-->
-
             <form @submit.prevent="submitForm">
                 <label for="pengajuan">Pilih Pengajuan</label>
                 <select id="pengajuan" v-model="form.selectedOption">
@@ -170,66 +199,66 @@ const submitForm = () => {
 
                     <div>
                         <label class="mb-1 block font-semibold">Nama</label>
+                        <div v-if="errors.nama" class="text-red-500 text-sm">{{ errors.nama }}</div>
                         <input
                             type="text"
                             name="nama"
                             class="w-full rounded border border-gray-300 px-3 py-2"
                             v-model="dataIjinKegiatan.nama"
-                            required
                         />
                     </div>
 
                     <div>
                         <label class="mb-1 block font-semibold">Alamat</label>
+                        <div v-if="errors.alamat" class="text-red-500 text-sm">{{ errors.alamat }}</div>
                         <textarea
                             name="alamat"
                             class="w-full rounded border border-gray-300 px-3 py-2"
                             rows="3"
                             v-model="dataIjinKegiatan.alamat"
-                            required
                         ></textarea>
                     </div>
 
                     <div>
                         <label class="mb-1 block font-semibold">Tanggal Kegiatan</label>
+                        <div v-if="errors.tanggal_kegiatan" class="text-red-500 text-sm">{{ errors.tanggal_kegiatan }}</div>
                         <input
                             type="date"
                             name="tanggal_kegiatan"
                             class="w-full rounded border border-gray-300 px-3 py-2"
                             v-model="dataIjinKegiatan.tanggal_kegiatan"
-                            required
                         />
                     </div>
 
                     <div>
                         <label class="mb-1 block font-semibold">Tempat Kegiatan</label>
+                        <div v-if="errors.tempat_kegiatan" class="text-red-500 text-sm">{{ errors.tempat_kegiatan }}</div>
                         <textarea
                             name="tempat_kegiatan"
                             class="w-full rounded border border-gray-300 px-3 py-2"
                             rows="2"
                             v-model="dataIjinKegiatan.tempat_kegiatan"
-                            required
                         ></textarea>
                     </div>
 
                     <div>
                         <label class="mb-1 block font-semibold">No HP</label>
+                        <div v-if="errors.no_hp" class="text-red-500 text-sm">{{ errors.no_hp }}</div>
                         <input
                             type="text"
                             name="no_hp"
                             class="w-full rounded border border-gray-300 px-3 py-2"
                             v-model="dataIjinKegiatan.no_hp"
-                            required
                         />
                     </div>
 
                     <div>
                         <label class="mb-1 block font-semibold">Jenis Kelamin</label>
+                        <div v-if="errors.jenis_kelamin" class="text-red-500 text-sm">{{ errors.jenis_kelamin }}</div>
                         <select
                             name="jenis_kelamin"
                             class="w-full rounded border border-gray-300 px-3 py-2"
                             v-model="dataIjinKegiatan.jenis_kelamin"
-                            required
                         >
                             <option value="">-- Pilih --</option>
                             <option value="Laki-laki">Laki-laki</option>
@@ -239,17 +268,18 @@ const submitForm = () => {
 
                     <div>
                         <label class="mb-1 block font-semibold">Tujuan Kegiatan</label>
+                        <div v-if="errors.tujuan_kegiatan" class="text-red-500 text-sm">{{ errors.tujuan_kegiatan }}</div>
                         <textarea
                             name="tujuan_kegiatan"
                             class="w-full rounded border border-gray-300 px-3 py-2"
                             rows="4"
                             v-model="dataIjinKegiatan.tujuan_kegiatan"
-                            required
                         ></textarea>
                     </div>
                     <div>
                         <label class="mb-1 block font-semibold">Upload Dokumen (Surat Keterangan RT/RW)</label>
-
+                        <span>type file : jpg, jpeg, png | max 2mb | min-max 2 file</span>
+                        <div v-if="errors.image_pengantar_rt_rw" class="text-red-500 text-sm">{{ errors.image_pengantar_rt_rw }}</div>
                         <div class="flex items-center space-x-4">
                             <!-- Tombol custom Telusuri -->
                             <label
@@ -283,12 +313,6 @@ const submitForm = () => {
                         <progress v-if="dataIjinKegiatan.progress" :value="dataIjinKegiatan.progress.percentage" max="100">
                             {{ dataIjinKegiatan.progress.percentage }}%
                         </progress>
-
-                        <!-- Preview gambar -->
-                        <!-- <div v-if="previewUrl" class="mt-2">
-                        <label class="mb-1 block font-medium">Preview:</label>
-                        <img :src="previewUrl" alt="Preview Gambar" class="max-h-48 rounded border" />
-                    </div> -->
                     </div>
                 </div>
 
@@ -396,12 +420,12 @@ const submitForm = () => {
 
                     <div>
                         <label class="mb-1 block font-semibold">Nama</label>
-                        <input type="text" name="nama" class="w-full rounded border border-gray-300 px-3 py-2" required />
+                        <input type="text" name="nama" class="w-full rounded border border-gray-300 px-3 py-2" required v-model="dataLaporanMasyarakat.nama" />
                     </div>
 
                     <div>
                         <label class="mb-1 block font-semibold">Jenis Kelamin</label>
-                        <select name="jenis_kelamin" class="w-full rounded border border-gray-300 px-3 py-2" required>
+                        <select name="jenis_kelamin" class="w-full rounded border border-gray-300 px-3 py-2" required v-model="dataLaporanMasyarakat.jenis_kelamin">
                             <option value="">-- Pilih --</option>
                             <option value="Laki-laki">Laki-laki</option>
                             <option value="Perempuan">Perempuan</option>
@@ -410,7 +434,7 @@ const submitForm = () => {
 
                     <div>
                         <label class="mb-1 block font-semibold">Alamat</label>
-                        <textarea name="alamat" class="w-full rounded border border-gray-300 px-3 py-2" rows="3" required></textarea>
+                        <textarea name="alamat" class="w-full rounded border border-gray-300 px-3 py-2" rows="3" required v-model="dataLaporanMasyarakat.alamat"></textarea>
                     </div>
 
                     <div>
@@ -421,6 +445,7 @@ const submitForm = () => {
                             rows="5"
                             placeholder="Tuliskan laporan masyarakat..."
                             required
+                            v-model="dataLaporanMasyarakat.laporan"
                         ></textarea>
                     </div>
                 </div>
@@ -435,7 +460,7 @@ const submitForm = () => {
                     Kirim Pengajuan
                 </button>
 
-                <div class="info">Mohon ditunggu, Admin akan segera menghubungi anda melalui WhatsApp/Email</div>
+                <div class="info" v-if="flash?.success">Mohon ditunggu, Admin akan segera menghubungi anda melalui Email</div>
             </form>
         </div>
     </div>

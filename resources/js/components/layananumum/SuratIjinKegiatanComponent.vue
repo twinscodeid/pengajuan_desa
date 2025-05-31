@@ -19,9 +19,8 @@ const goToPage = (page: number) => {
 
 // data
 const props = defineProps({
-    data: Object
+    dataIjin: Object
 })
-console.log(props.data)
 
 const sendEmail = (id: any) => {
     router.post(route('surat-ijin-kegiatan.send-email', id), {}, {
@@ -53,7 +52,7 @@ const sendEmail = (id: any) => {
                 </thead>
 
                 <tbody class="bg-white divide-y divide-gray-200 whitespace-nowrap">
-                    <tr v-for="item in props?.data?.data" :key="item.id">
+                    <tr v-for="item in props?.dataIjin?.data" :key="item.id">
                         <td class="px-4 py-4 text-sm text-slate-900 font-medium">
                             {{ item.nama }}
                         </td>
@@ -66,7 +65,7 @@ const sendEmail = (id: any) => {
                         <td class="px-4 py-4 text-sm">
                             <div class="flex flex-wrap gap-2">
                                 <!-- Edit -->
-                                <Link :href="route('surat-ijin-kegiatan.get', item.id)"
+                                <Link :href="route('surat-ijin-kegiatan.edit', item.id)"
                                     class="flex items-center px-3 py-2 rounded-md text-white bg-orange-600 font-medium hover:bg-orange-800">
                                 <SquarePen class="w-4 h-4" />
                                 </Link>

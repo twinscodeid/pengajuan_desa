@@ -20,8 +20,7 @@ class PelaporanMasyarakatService
 
     public function getPelaporanMasyarakatById($id)
     {
-        $dataPelaporanMasyarakat = $this->pelaporanMasyarakatRepository->getPelaporanMasyarakatById($id);
-        return $dataPelaporanMasyarakat;
+        return $this->pelaporanMasyarakatRepository->getPelaporanMasyarakatById($id);
     }
 
     public function storePelaporanMasyarakat(array $data)
@@ -36,17 +35,17 @@ class PelaporanMasyarakatService
         return $dataPelaporanMasyarakat;
     }
 
-    public function updatePelaporanMasyarakat($id, array $data)
-    {
-        $dataPelaporanMasyarakat = $this->pelaporanMasyarakatRepository->updatePelaporanMasyarakat($id, [
-            'user_id' => $data['user_id'],
-            'nama' => $data['nama'],
-            'jenis_kelamin' => $data['jenis_kelamin'],
-            'alamat' => $data['alamat'],
-            'laporan' => $data['laporan']
-        ]);
-        return $dataPelaporanMasyarakat;
-    }
+    // public function updatePelaporanMasyarakat($id, array $data)
+    // {
+    //     $dataPelaporanMasyarakat = $this->pelaporanMasyarakatRepository->updatePelaporanMasyarakat($id, [
+    //         'user_id' => $data['user_id'],
+    //         'nama' => $data['nama'],
+    //         'jenis_kelamin' => $data['jenis_kelamin'],
+    //         'alamat' => $data['alamat'],
+    //         'laporan' => $data['laporan']
+    //     ]);
+    //     return $dataPelaporanMasyarakat;
+    // }
 
     public function destroyPelaporanMasyarakat($id)
     {

@@ -8,3 +8,10 @@ export type SuratIjinKegiatan = {
     tujuan_kegiatan: string
     image_pengantar_rt_rw: File[]
 }
+
+export type LaporanMasyarakat = {
+    nama: string,
+    jenis_kelamin: string,
+    alamat: string,
+    laporan: string
+}

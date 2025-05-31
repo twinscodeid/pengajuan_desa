@@ -13,17 +13,21 @@ class PelaporanMasyarakatController extends Controller
 {
     protected $pelaporanMasyarakatService;
 
-    public function __construct(PelaporanMasyarakat $pelaporanMasyarakatService)
+    public function __construct(PelaporanMasyarakatService $pelaporanMasyarakatService)
     {
         $this->pelaporanMasyarakatService = $pelaporanMasyarakatService;
     }
 
-    public function index()
+    public function show($id)
     {
-        $dataPelaporanMasyarakat = $this->pelaporanMasyarakatService->getAllPelaporanMasyarakat();
-        return Inertia::render('PelaporanMasyarakat/PelaporanMasyarakat', [
-            'dataPelaporanMasyarakat' => $dataPelaporanMasyarakat
-        ]);
+        try {
+            $dataPelaporanMasyarakat = $this->pelaporanMasyarakatService->getPelaporanMasyarakatById($id);
+            return Inertia::render('DashboardAdmin/PelaporanMasyarakat/Show', [
+                'dataPelaporanMasyarakat' => $dataPelaporanMasyarakat
+            ]);
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $th->getMessage());
+        }
     }
 
     // bagian store
@@ -31,9 +35,8 @@ class PelaporanMasyarakatController extends Controller
     {
         try {
             $data = $request->validated();
-            $idUser = auth()->user()->id;
-            $data['user_id'] = $idUser;
-            $dataPelaporanMasyarakat = $this->pelaporanMasyarakatService->storePelaporanMasyarakat($data);
+            $data['user_id'] = auth()->user()->id;
+            $this->pelaporanMasyarakatService->storePelaporanMasyarakat($data);
             return redirect()->back()->with('success', 'Laporan berhasil dikirim.');
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $th->getMessage());
@@ -41,21 +44,21 @@ class PelaporanMasyarakatController extends Controller
     }
 
     // bagian update
-    public function update($id, PelaporanMasyarakatRequest $request)
-    {
+    // public function update($id, PelaporanMasyarakatRequest $request)
+    // {
 
-        try {
-            $data = $request->validated();
-            $dataUserId = $this->pelaporanMasyarakatService->getPelaporanMasyarakatById($id);
-            $data['user_id'] = $dataUserId->user_id;
-            $this->pelaporanMasyarakatService->updatePelaporanMasyarakat($id, $data);
-            return redirect()->back()->with('success', 'Laporan berhasil diperbarui.');
-        } catch (\Throwable $th) {
-            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $th->getMessage());
-        }
-    }
+    //     try {
+    //         $data = $request->validated();
+    //         $dataUserId = $this->pelaporanMasyarakatService->getPelaporanMasyarakatById($id);
+    //         $data['user_id'] = $dataUserId->user_id;
+    //         $this->pelaporanMasyarakatService->updatePelaporanMasyarakat($id, $data);
+    //         return redirect()->back()->with('success', 'Laporan berhasil diperbarui.');
+    //     } catch (\Throwable $th) {
+    //         return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $th->getMessage());
+    //     }
+    // }
 
-    public function delete($id)
+    public function destroy($id)
     {
         try {
             $this->pelaporanMasyarakatService->destroyPelaporanMasyarakat($id);

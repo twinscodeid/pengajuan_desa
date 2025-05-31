@@ -54,11 +54,12 @@ class SuratIjinKegiatanService
             });
 
             if (count($validImages) > 2) {
-                throw new \Exception('Jumlah gambar tidak boleh lebih dari 2');
+                throw new \Exception('Maksimal 2 surat pengantar dari RT dan RW');
             }
             if (count($validImages) < 1) {
-                throw new \Exception('Harus ada surat pengantar dari RT dan RW');
+                throw new \Exception('Minimal 1 surat pengantar dari RT dan RW');
             }
+
 
             foreach ($validImages as $image) {
                 $imagePath = $image->store('surat_pengantar_rt_rw', 'local');
