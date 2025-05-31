@@ -9,7 +9,7 @@ class SuratIjinKegiatanRepository implements SuratIjinKegiatanRepositoryInterfac
 {
     public function getAllSuratIjinKegiatan()
     {
-        return SuratIjinKegiatan::with(['user', 'suratPengantarRTRW'])->paginate(10);
+        return SuratIjinKegiatan::with(['user', 'suratPengantarRTRW'])->paginate(3);
     }
 
     public function getSuratIjinKegiatanById($id)
