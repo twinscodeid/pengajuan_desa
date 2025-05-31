@@ -15,7 +15,7 @@ class PelaporanMasyarakatRepository implements PelaporanMasyarakatRepositoryInte
 
     public function getPelaporanMasyarakatById($id)
     {
-        return PelaporanMasyarakat::with(['user'])->first($id);
+        return PelaporanMasyarakat::with(['user'])->findOrFail($id);
     }
 
     public function createPelaporanMasyarakat(array $data)
@@ -23,12 +23,12 @@ class PelaporanMasyarakatRepository implements PelaporanMasyarakatRepositoryInte
         return PelaporanMasyarakat::create($data);
     }
 
-    public function updatePelaporanMasyarakat($id, array $data)
-    {
-        $pelaporanMasyarakat = PelaporanMasyarakat::findOrFail($id);
-        $pelaporanMasyarakat->update($data);
-        return $pelaporanMasyarakat;
-    }
+    // public function updatePelaporanMasyarakat($id, array $data)
+    // {
+    //     $pelaporanMasyarakat = PelaporanMasyarakat::findOrFail($id);
+    //     $pelaporanMasyarakat->update($data);
+    //     return $pelaporanMasyarakat;
+    // }
 
     public function deletePelaporanMasyarakat($id)
     {

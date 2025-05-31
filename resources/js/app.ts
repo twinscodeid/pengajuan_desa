@@ -8,6 +8,7 @@ import { ZiggyVue } from 'ziggy-js';
 import { initializeTheme } from './composables/useAppearance';
 import 'viewerjs/dist/viewer.css'
 import VueViewer from 'v-viewer'
+import Notifications from '@kyvg/vue3-notification'
 
 // Extend ImportMeta interface for Vite...
 declare module 'vite/client' {
@@ -22,7 +23,7 @@ declare module 'vite/client' {
     }
 }
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+const appName = import.meta.env.VITE_APP_NAME || 'Pengajuan Desa Cepogo';
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
@@ -32,6 +33,7 @@ createInertiaApp({
             .use(plugin)
             .use(ZiggyVue)
             .use(VueViewer)
+            .use(Notifications)
             .mount(el);
     },
     progress: {

@@ -14,6 +14,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use App\Notifications\SuratIjinKegiatanNotification;
+use Illuminate\Validation\ValidationException;
 
 class SuratIjinKegiatanController extends Controller
 {
@@ -48,9 +49,9 @@ class SuratIjinKegiatanController extends Controller
             $admin = User::where('role', 'admin')->first();
             $admin->notify(new AdminNotification($admin));
 
-            return redirect()->route('surat-ijin-kegiatan.index')->with('success', 'Surat Ijin Kegiatan berhasil dibuat.');
+            return redirect()->route('dashboard.index.user')->with('success', 'Surat Ijin Kegiatan berhasil dibuat.');
         } catch (\Throwable $th) {
-            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $th->getMessage());
+            return redirect()->route('dashboard.index.user')->with('error', 'Terjadi kesalahan: ' . $th->getMessage());
         }
     }
 
@@ -58,9 +59,9 @@ class SuratIjinKegiatanController extends Controller
     public function show(string $id)
     {
         try {
-            $SuratIjinKegiatanById = $this->suratIjinKegiatanService->getSuratIjinKegiatanById($id);
-            return Inertia::render('SuratIjinKegiatan/Show', [
-                'suratIjinKegiatanById' => $SuratIjinKegiatanById,
+            $dataSuratIjinKegiatanById = $this->suratIjinKegiatanService->getSuratIjinKegiatanById($id);
+            return Inertia::render('DashboardAdmin/SuratIjinKegiatan/Show', [
+                'dataSuratIjinKegiatanById' => $dataSuratIjinKegiatanById
             ]);
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $th->getMessage());
@@ -115,6 +116,7 @@ class SuratIjinKegiatanController extends Controller
             }
             // Mail::to($SuratIjinKegiatanById->user->email)->send(new IjinKegiatan($SuratIjinKegiatanById, $dataPdfUser));
             $SuratIjinKegiatanById->user->notify(new SuratIjinKegiatanNotification($SuratIjinKegiatanById, $dataPdfUser));
+            redirect()->back()->with('success', 'Surat Ijin Kegiatan berhasil dikirim.');
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $th->getMessage());
         }

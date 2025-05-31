@@ -16,7 +16,6 @@ class PelaporanMasyarakatRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|exists:users,id',
             'nama' => 'required|string',
             'jenis_kelamin' => 'required|string|in:Laki-laki, Perempuan',
             'alamat' => 'required|string',
