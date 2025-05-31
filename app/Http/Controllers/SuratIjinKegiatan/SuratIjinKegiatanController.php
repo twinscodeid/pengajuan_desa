@@ -4,6 +4,7 @@ namespace App\Http\Controllers\SuratIjinKegiatan;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SuratIjinKegiatan;
+use App\Http\Requests\UpdateSuratIjinKegiatanRequest;
 use App\Notifications\AdminNotification;
 use Illuminate\Http\Request;
 use App\Services\SuratIjinKegiatanService;
@@ -67,7 +68,7 @@ class SuratIjinKegiatanController extends Controller
     }
 
     // update surat ijin kegiatan
-    public function update(string $id, SuratIjinKegiatan $request)
+    public function update(string $id, UpdateSuratIjinKegiatanRequest $request)
     {
         try {
             $data = $request->validated();

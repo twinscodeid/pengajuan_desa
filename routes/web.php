@@ -28,7 +28,9 @@ Route::middleware(['auth', 'admin.role'])->group(function () {
     Route::get('/dashboard-admin', [DashboardController::class, 'index'])->name('dashboard.index.admin');
     Route::get('/layanan-umum', [DashboardController::class, 'layananUmum'])->name('layanan.admin');
     Route::get('/surat-ijin-kegiatan/{id}', [DashboardController::class, 'showSuratIjinKegiatan'])->name('surat-ijin-kegiatan.show');
+    Route::get('/surat-ijin-kegiatan-get/{id}', [DashboardController::class, 'updateSuratIjinKegiatan'])->name('surat-ijin-kegiatan.get');
     Route::delete('/surat-ijin-destroy/{id}', [DashboardController::class, 'deleteSuratIjinKegiatan'])->name('surat-ijin-kegiatan.destroy');
+    Route::put('/surat-ijin-kegiatan-update/{id}', [SuratIjinKegiatanController::class, 'update'])->name('surat-ijin-kegiatan.update');
     Route::get('/private-image/{filename}', [FileController::class, 'showPrivateImage'])->name('private.image');
     Route::post('/send-email/{id}', [SuratIjinKegiatanController::class, 'sendEmail'])->name('surat-ijin-kegiatan.send-email');
 });

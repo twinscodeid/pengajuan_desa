@@ -5,14 +5,23 @@ import { formatDate } from '@/composables/useFormateDate';
 import { SquarePen, Trash2, Eye, Mail } from 'lucide-vue-next';
 import { Link, Head, router } from '@inertiajs/vue3';
 
-const isDialogOpenRead = ref(false)
-const handleDialogRead = () => {
-    isDialogOpenRead.value = !isDialogOpenRead.value
+
+// handle paginate
+const goToPage = (page: number) => {
+    router.get(route('layanan.admin'), { page }, {
+        preserveState: true,
+        preserveScroll: true,
+    })
 }
+
+
+
+
 // data
 const props = defineProps({
     data: Object
 })
+console.log(props.data)
 
 const sendEmail = (id: any) => {
     router.post(route('surat-ijin-kegiatan.send-email', id), {}, {
@@ -55,32 +64,52 @@ const sendEmail = (id: any) => {
                             {{ formatDate(item.tanggal_kegiatan) }}
                         </td>
                         <td class="px-4 py-4 text-sm">
-                            <button
-                                class="cursor-pointer px-3 py-2 rounded-md text-white bg-orange-600 font-medium mr-4 hover:bg-orange-800">
+                            <div class="flex flex-wrap gap-2">
+                                <!-- Edit -->
+                                <Link :href="route('surat-ijin-kegiatan.get', item.id)"
+                                    class="flex items-center px-3 py-2 rounded-md text-white bg-orange-600 font-medium hover:bg-orange-800">
                                 <SquarePen class="w-4 h-4" />
-                            </button>
-                            <Link :href="route('surat-ijin-kegiatan.destroy', item.id)" method="delete" as="button"
-                                class="cursor-pointer px-3 py-2 rounded-md text-white bg-red-600 font-medium mr-4 hover:bg-red-800">
-                            <Trash2 class="w-4 h-4" />
-                            </Link>
+                                </Link>
 
-                            <button
-                                class="cursor-pointer px-3 py-2 rounded-md text-white bg-green-600 font-medium mr-4 hover:bg-green-800">
-                                <Link :href="route('surat-ijin-kegiatan.show', item.id)">
+                                <!-- Delete -->
+                                <Link :href="route('surat-ijin-kegiatan.destroy', item.id)" method="delete" as="button"
+                                    class="flex items-center px-3 py-2 rounded-md text-white bg-red-600 font-medium hover:bg-red-800">
+                                <Trash2 class="w-4 h-4" />
+                                </Link>
+
+                                <!-- View -->
+                                <Link :href="route('surat-ijin-kegiatan.show', item.id)"
+                                    class="flex items-center px-3 py-2 rounded-md text-white bg-green-600 font-medium hover:bg-green-800">
                                 <Eye class="w-4 h-4" />
                                 </Link>
-                            </button>
-                            <button @click="sendEmail(item.id)"
-                                class="px-3 py-2 rounded-md text-white bg-yellow-600 font-medium hover:bg-yellow-800">
-                                <Mail class="w-4 h-4" />
-                            </button>
+
+                                <!-- Send Email -->
+                                <button @click="sendEmail(item.id)"
+                                    class="flex items-center px-3 py-2 rounded-md text-white bg-yellow-600 font-medium hover:bg-yellow-800">
+                                    <Mail class="w-4 h-4" />
+                                </button>
+                            </div>
                         </td>
+
                     </tr>
                 </tbody>
             </table>
+            <!-- handle paginate -->
+            <div class="flex justify-end items-center gap-2 mt-4">
+                <Button variant="outline" size="sm" class="py-1 px-3 bg-[#bbe5e1] rounded-md cursor-pointer"
+                    @click="goToPage(props?.data?.current_page - 1)" :disabled="!props?.data?.prev_page_url">
+                    &laquo;
+                </Button>
+
+                <span class="text-sm">
+                    Halaman {{ props?.data?.current_page }} dari {{ props?.data?.last_page }}
+                </span>
+
+                <Button variant="outline" size="sm" class="py-1 px-3 bg-[#bbe5e1] rounded-md cursor-pointer"
+                    @click="goToPage(props?.data?.current_page + 1)" :disabled="!props?.data?.next_page_url">
+                    &raquo;
+                </Button>
+            </div>
         </div>
-
-
-
     </div>
 </template>
