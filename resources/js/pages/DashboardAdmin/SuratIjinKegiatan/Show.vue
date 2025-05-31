@@ -15,7 +15,7 @@ const props = defineProps({
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Detail Surat Ijin Kegiatan',
-        href: '/layanan-umum',
+        href: '/pelaporan-masyarakat',
     },
 ];
 const data = props?.dataSuratIjinKegiatanById;

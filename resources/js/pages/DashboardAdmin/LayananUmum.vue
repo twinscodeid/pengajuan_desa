@@ -18,9 +18,11 @@ const selectedLayananUmum = ref('surat_ijin_kegiatan');
 
 // data props
 const props = defineProps({
-    dataSuratIjinKegiatan: Object
+    dataSuratIjinKegiatan: Object,
+    dataPelaporanMasyarakat: Object
 })
-const data = computed(() => props?.dataSuratIjinKegiatan);
+const dataSuratIjinKegiatan = computed(() => props?.dataSuratIjinKegiatan);
+const dataPelaporanMasyarakat = computed(() => props?.dataPelaporanMasyarakat);
 </script>
 
 <template>
@@ -36,10 +38,10 @@ const data = computed(() => props?.dataSuratIjinKegiatan);
                 <option value="pelaporan_masyarakat">Pelaporan Masyarakat</option>
              </select>
             <!-- bagian data layanan umum surat ijin kegiatan -->
-             <SuratIjinKegiatan :data="data" v-if="selectedLayananUmum === 'surat_ijin_kegiatan'"/>
+             <SuratIjinKegiatan :dataIjin="dataSuratIjinKegiatan" v-if="selectedLayananUmum === 'surat_ijin_kegiatan'"/>
 
              <!-- bagian data layanan umum pelaporan masyarakat -->
-              <PelaporanMasyarakat v-if="selectedLayananUmum === 'pelaporan_masyarakat'"/>
+              <PelaporanMasyarakat :datalapor="dataPelaporanMasyarakat" v-if="selectedLayananUmum === 'pelaporan_masyarakat'"/>
         </div>
     </AppLayout>
 </template>

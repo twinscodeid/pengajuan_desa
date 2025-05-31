@@ -10,7 +10,7 @@ interface PelaporanMasyarakatRepositoryInterface
 
     public function createPelaporanMasyarakat(array $data);
 
-    public function updatePelaporanMasyarakat($id, array $data);
+    // public function updatePelaporanMasyarakat($id, array $data);
 
     public function deletePelaporanMasyarakat($id);
 }

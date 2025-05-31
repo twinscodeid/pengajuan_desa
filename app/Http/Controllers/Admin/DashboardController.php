@@ -7,14 +7,17 @@ use Illuminate\Http\Request;
 use App\Services\SuratIjinKegiatanService;
 use Inertia\Inertia;
 use App\Http\Requests\SuratIjinKegiatan;
+use App\Services\PelaporanMasyarakatService;
 
 class DashboardController extends Controller
 {
 
     protected $suratIjinKegiatanService;
-    public function __construct(SuratIjinKegiatanService $suratIjinKegiatanService)
+    protected $pelaporanMasyarakatService;
+    public function __construct(SuratIjinKegiatanService $suratIjinKegiatanService, PelaporanMasyarakatService $pelaporanMasyarakatService)
     {
         $this->suratIjinKegiatanService = $suratIjinKegiatanService;
+        $this->pelaporanMasyarakatService = $pelaporanMasyarakatService;
     }
     public function index()
     {
@@ -24,23 +27,11 @@ class DashboardController extends Controller
     public function layananUmum()
     {
         $dataSuratIjinKegiatan = $this->suratIjinKegiatanService->getAllSuratIjinKegiatan();
+        $dataPelaporanMasyarakat = $this->pelaporanMasyarakatService->getAllPelaporanMasyarakat();
         return Inertia::render('DashboardAdmin/LayananUmum', [
-            'dataSuratIjinKegiatan' => $dataSuratIjinKegiatan
+            'dataSuratIjinKegiatan' => $dataSuratIjinKegiatan,
+            'dataPelaporanMasyarakat' => $dataPelaporanMasyarakat
         ]);
-    }
-    // bagian show data by id surat ijin kegiatan
-    public function showSuratIjinKegiatan($id)
-    {
-        $dataSuratIjinKegiatanById = $this->suratIjinKegiatanService->getSuratIjinKegiatanById($id);
-        return Inertia::render('DashboardAdmin/SuratIjinKegiatan/Show', [
-            'dataSuratIjinKegiatanById' => $dataSuratIjinKegiatanById
-        ]);
-    }
-    // bagian destroy data by id surat ijin kegiatan
-    public function deleteSuratIjinKegiatan($id)
-    {
-        $this->suratIjinKegiatanService->destroySuratIjinKegiatan($id);
-        return redirect()->back()->with('success', 'Surat Ijin Kegiatan berhasil dihapus.');
     }
 
     public function updateSuratIjinKegiatan(string $id)
