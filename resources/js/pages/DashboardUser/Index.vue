@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { router, Link, Head, useForm } from '@inertiajs/vue3';
+import gambarForm from '@/asset/img/FORM1.png';
+import { SuratIjinKegiatan } from '@/types/general';
+import { Link, useForm } from '@inertiajs/vue3';
 import { reactive } from 'vue';
-import {SuratIjinKegiatan} from "@/types/general";
-
+import { UserCircleIcon } from '@heroicons/vue/24/solid';
 const form = reactive({
     selectedOption: '',
 });
@@ -16,8 +17,8 @@ const dataIjinKegiatan = useForm<SuratIjinKegiatan>({
     no_hp: '',
     jenis_kelamin: '',
     tujuan_kegiatan: '',
-    image_pengantar_rt_rw: []
-})
+    image_pengantar_rt_rw: [],
+});
 
 // method hanlde image
 const handleFiles = (event: Event) => {
@@ -36,41 +37,48 @@ const handleFiles = (event: Event) => {
 
 // Method submit
 const submitForm = () => {
-
-    if(form.selectedOption === 'izin') {
-
-    dataIjinKegiatan.post(route('surat-ijin-kegiatan.store'), {
-        forceFormData: true,
-        preserveScroll: true,
-        onSuccess: () => {
-            form.selectedOption = '';
-            dataIjinKegiatan.reset();
-        },
-        onError: (errors: any) => {
-            console.log(errors);
-        }
-    });
+    if (form.selectedOption === 'izin') {
+        dataIjinKegiatan.post(route('surat-ijin-kegiatan.store'), {
+            forceFormData: true,
+            preserveScroll: true,
+            onSuccess: () => {
+                form.selectedOption = '';
+                dataIjinKegiatan.reset();
+            },
+            onError: (errors: any) => {
+                console.log(errors);
+            },
+        });
     }
 };
 </script>
 
 <template>
-    <div class="page-wrapper">
-        <div class="container">
-            <div class="profile flex gap-2 items-center">
-                <p>🔵</p>
-                <Link href="/dashboard-user" class="cursor-pointer hover:underline">Profil</Link>
+    <div class="page-wrapper relative min-h-screen">
+        <!-- Navbar Mengambang -->
+        <nav class="fixed top-0 left-0 z-50 flex w-full items-center justify-between bg-white px-6 py-4 shadow-md">
+            <div class="flex items-center gap-4">
+                <Link href="/profile" class="flex items-center gap-1 text-gray-700 hover:underline">
+                    <UserCircleIcon class="h-6 w-6 text-[#00bfa8]" />
+                    <span class="hidden sm:inline">Profil</span>
+                </Link>
             </div>
-            <h2>Form Pengajuan</h2>
-            <img src="#" alt="" class="" />
+        </nav>
+        <!-- Tempat Gambar -->
+        <div class="pt-0 md:pt-10 lg:pt-20">
+            <div class="flex items-center justify-center bg-white">
+                <div class="w-full overflow-hidden rounded-lg shadow-md md:w-[500px]">
+                    <img :src="gambarForm" alt="Form Gambar" class="h-auto w-full object-cover" />
+                </div>
+            </div>
 
-            <div class="lorem-box">
+            <!--<div class="lorem-box">
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla convallis nunc a purus interdum, in sollicitudin eros blandit.
                     Morbi vitae turpis in libero sodales gravida. Fusce porttitor urna a felis imperdiet efficitur. Proin sit amet rutrum metus.
                     Suspendisse at semper tellus. Integer euismod justo nec libero accumsan, ut mattis turpis pharetra.
                 </p>
-            </div>
+            </div>-->
 
             <form @submit.prevent="submitForm">
                 <label for="pengajuan">Pilih Pengajuan</label>
@@ -88,12 +96,12 @@ const submitForm = () => {
                     <label for="form">Form Surat</label>
 
                     <div>
-                        <label class="mb-1 block font-semibold">Nama Lengkap</label>
+                        <label class="mb-1 block font-semibold text-black">Nama Lengkap</label>
                         <input type="text" name="nama" class="w-full rounded border border-gray-300 px-3 py-2" required />
                     </div>
 
                     <div>
-                        <label class="mb-1 block font-semibold">NIK</label>
+                        <label class="mb-1 block font-semibold text-black">NIK</label>
                         <input type="text" name="nik" class="w-full rounded border border-gray-300 px-3 py-2" required />
                     </div>
 
@@ -162,32 +170,67 @@ const submitForm = () => {
 
                     <div>
                         <label class="mb-1 block font-semibold">Nama</label>
-                        <input type="text" name="nama" class="w-full rounded border border-gray-300 px-3 py-2" v-model="dataIjinKegiatan.nama" required />
+                        <input
+                            type="text"
+                            name="nama"
+                            class="w-full rounded border border-gray-300 px-3 py-2"
+                            v-model="dataIjinKegiatan.nama"
+                            required
+                        />
                     </div>
 
                     <div>
                         <label class="mb-1 block font-semibold">Alamat</label>
-                        <textarea name="alamat" class="w-full rounded border border-gray-300 px-3 py-2" rows="3" v-model="dataIjinKegiatan.alamat" required></textarea>
+                        <textarea
+                            name="alamat"
+                            class="w-full rounded border border-gray-300 px-3 py-2"
+                            rows="3"
+                            v-model="dataIjinKegiatan.alamat"
+                            required
+                        ></textarea>
                     </div>
 
                     <div>
                         <label class="mb-1 block font-semibold">Tanggal Kegiatan</label>
-                        <input type="date" name="tanggal_kegiatan" class="w-full rounded border border-gray-300 px-3 py-2" v-model="dataIjinKegiatan.tanggal_kegiatan" required />
+                        <input
+                            type="date"
+                            name="tanggal_kegiatan"
+                            class="w-full rounded border border-gray-300 px-3 py-2"
+                            v-model="dataIjinKegiatan.tanggal_kegiatan"
+                            required
+                        />
                     </div>
 
                     <div>
                         <label class="mb-1 block font-semibold">Tempat Kegiatan</label>
-                        <textarea name="tempat_kegiatan" class="w-full rounded border border-gray-300 px-3 py-2" rows="2" v-model="dataIjinKegiatan.tempat_kegiatan" required></textarea>
+                        <textarea
+                            name="tempat_kegiatan"
+                            class="w-full rounded border border-gray-300 px-3 py-2"
+                            rows="2"
+                            v-model="dataIjinKegiatan.tempat_kegiatan"
+                            required
+                        ></textarea>
                     </div>
 
                     <div>
                         <label class="mb-1 block font-semibold">No HP</label>
-                        <input type="text" name="no_hp" class="w-full rounded border border-gray-300 px-3 py-2" v-model="dataIjinKegiatan.no_hp" required />
+                        <input
+                            type="text"
+                            name="no_hp"
+                            class="w-full rounded border border-gray-300 px-3 py-2"
+                            v-model="dataIjinKegiatan.no_hp"
+                            required
+                        />
                     </div>
 
                     <div>
                         <label class="mb-1 block font-semibold">Jenis Kelamin</label>
-                        <select name="jenis_kelamin" class="w-full rounded border border-gray-300 px-3 py-2" v-model="dataIjinKegiatan.jenis_kelamin" required>
+                        <select
+                            name="jenis_kelamin"
+                            class="w-full rounded border border-gray-300 px-3 py-2"
+                            v-model="dataIjinKegiatan.jenis_kelamin"
+                            required
+                        >
                             <option value="">-- Pilih --</option>
                             <option value="Laki-laki">Laki-laki</option>
                             <option value="Perempuan">Perempuan</option>
@@ -196,51 +239,57 @@ const submitForm = () => {
 
                     <div>
                         <label class="mb-1 block font-semibold">Tujuan Kegiatan</label>
-                        <textarea name="tujuan_kegiatan" class="w-full rounded border border-gray-300 px-3 py-2" rows="4" v-model="dataIjinKegiatan.tujuan_kegiatan" required></textarea>
+                        <textarea
+                            name="tujuan_kegiatan"
+                            class="w-full rounded border border-gray-300 px-3 py-2"
+                            rows="4"
+                            v-model="dataIjinKegiatan.tujuan_kegiatan"
+                            required
+                        ></textarea>
                     </div>
                     <div>
-                    <label class="mb-1 block font-semibold">Upload Dokumen (Surat Keterangan RT/RW)</label>
+                        <label class="mb-1 block font-semibold">Upload Dokumen (Surat Keterangan RT/RW)</label>
 
-                    <div class="flex items-center space-x-4">
-                        <!-- Tombol custom Telusuri -->
-                        <label
-                            for="dokumen"
-                            class="cursor-pointer rounded bg-gray-400 px-4 py-2 font-semibold text-white transition hover:bg-gray-500"
-                        >
-                            Telusuri
-                        </label>
+                        <div class="flex items-center space-x-4">
+                            <!-- Tombol custom Telusuri -->
+                            <label
+                                for="dokumen"
+                                class="cursor-pointer rounded bg-gray-400 px-4 py-2 font-semibold text-white transition hover:bg-gray-500"
+                            >
+                                Telusuri
+                            </label>
 
-                        <!-- Nama file jika sudah dipilih -->
-                        <!-- <span v-if="fileName" class="max-w-xs truncate text-sm text-gray-600">{{ fileName }}</span> -->
-                    </div>
+                            <!-- Nama file jika sudah dipilih -->
+                            <!-- <span v-if="fileName" class="max-w-xs truncate text-sm text-gray-600">{{ fileName }}</span> -->
+                        </div>
 
-                    <!-- Input file disembunyikan -->
-                    <input
-                    id="dokumen"
-                    class="hidden"
-      type="file"
-      multiple
-      accept="image/*"
-      name="image_pengantar_rt_rw[]"
-      @change="handleFiles"
-    />
+                        <!-- Input file disembunyikan -->
+                        <input
+                            id="dokumen"
+                            class="hidden"
+                            type="file"
+                            multiple
+                            accept="image/*"
+                            name="image_pengantar_rt_rw[]"
+                            @change="handleFiles"
+                        />
 
-    <div v-if="dataIjinKegiatan.image_pengantar_rt_rw.length">
-      <p v-for="(image, index) in dataIjinKegiatan.image_pengantar_rt_rw" :key="index">
-        {{ image.name }}
-      </p>
-    </div>
+                        <div v-if="dataIjinKegiatan.image_pengantar_rt_rw.length">
+                            <p v-for="(image, index) in dataIjinKegiatan.image_pengantar_rt_rw" :key="index">
+                                {{ image.name }}
+                            </p>
+                        </div>
 
-    <progress v-if="dataIjinKegiatan.progress" :value="dataIjinKegiatan.progress.percentage" max="100">
-      {{ dataIjinKegiatan.progress.percentage }}%
-    </progress>
+                        <progress v-if="dataIjinKegiatan.progress" :value="dataIjinKegiatan.progress.percentage" max="100">
+                            {{ dataIjinKegiatan.progress.percentage }}%
+                        </progress>
 
-                    <!-- Preview gambar -->
-                    <!-- <div v-if="previewUrl" class="mt-2">
+                        <!-- Preview gambar -->
+                        <!-- <div v-if="previewUrl" class="mt-2">
                         <label class="mb-1 block font-medium">Preview:</label>
                         <img :src="previewUrl" alt="Preview Gambar" class="max-h-48 rounded border" />
                     </div> -->
-                </div>
+                    </div>
                 </div>
 
                 <!-- ====================== BANTUAN SOSIAL ====================== -->
@@ -376,24 +425,48 @@ const submitForm = () => {
                     </div>
                 </div>
 
-                <button type="submit">Kirim Pengajuan</button>
-                <div class="info">Mohon ditunggu, admin akan segera menghubungi Anda Melalui WA/email</div>
+                <button
+                    type="submit"
+                    class="w-full rounded-lg py-2 font-semibold text-white transition duration-300"
+                    style="background-color: #00bfa8"
+                    onmouseover="this.style.backgroundColor='#009e93'"
+                    onmouseout="this.style.backgroundColor='#00bfa8'"
+                >
+                    Kirim Pengajuan
+                </button>
+
+                <div class="info">Mohon ditunggu, Admin akan segera menghubungi anda melalui WhatsApp/Email</div>
             </form>
         </div>
     </div>
 </template>
 
-
-
 <style scoped>
+.page-wrapper {
+    background-color: #f9f9f9;
+    color: #000;
+}
+
+.container {
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+/* Untuk semua label, input, select, textarea, dan tombol */
+form label,
+form input,
+form textarea,
+form select {
+    color: #000 !important;
+}
 body {
     color: #000000;
     margin: 0;
     padding: 0;
     height: 100%;
     background-color: #fff; /* Latar belakang putih */
-  }
-  .lorem-box {
+}
+.lorem-box {
     background-color: #f5f5f5;
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -404,9 +477,9 @@ body {
     color: #000;
     font-size: 1rem;
     line-height: 1.6;
-  }
+}
 
-  .page-wrapper {
+.page-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -414,43 +487,41 @@ body {
     background-color: #fff; /* Putih penuh */
     padding: 20px;
     box-sizing: border-box;
-  }
+}
 
-
-
-  .profile {
+.profile {
     font-weight: bold;
     color: #1e90ff;
     margin-bottom: 15px;
     font-size: 1.1rem;
-  }
+}
 
-  h2 {
+h2 {
     color: rgb(0, 0, 0);
     font-weight: bold;
     text-align: center;
     margin-bottom: 20px;
     font-size: large;
-  }
+}
 
-  label {
+label {
     display: block;
     margin-top: 15px;
     font-weight: bold;
-    color: #333;
-  }
+    color: rgb(0, 0, 0);
+}
 
-  select,
-  textarea {
+select,
+textarea {
     width: 100%;
     padding: 10px;
     margin-top: 6px;
     border-radius: 6px;
     border: 1px solid #ccc;
     box-sizing: border-box;
-  }
+}
 
-  button {
+button {
     margin-top: 20px;
     width: 100%;
     padding: 12px;
@@ -460,25 +531,23 @@ body {
     border-radius: 6px;
     font-size: 1rem;
     cursor: pointer;
-  }
+}
 
-  button:hover {
+button:hover {
     background-color: #007bff;
-  }
+}
 
-  .info {
+.info {
     margin-top: 20px;
     text-align: center;
     color: #000000;
-  }
+}
 
-  .forum-img {
+.forum-img {
     width: 100%;
     height: auto;
     margin: 15px 0;
     border-radius: 8px;
     object-fit: cover;
-  }
+}
 </style>
-
-
