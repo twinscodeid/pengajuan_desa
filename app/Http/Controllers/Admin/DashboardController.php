@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\SuratIjinKegiatanService;
 use Inertia\Inertia;
+use App\Http\Requests\SuratIjinKegiatan;
 
 class DashboardController extends Controller
 {
@@ -40,5 +41,17 @@ class DashboardController extends Controller
     {
         $this->suratIjinKegiatanService->destroySuratIjinKegiatan($id);
         return redirect()->back()->with('success', 'Surat Ijin Kegiatan berhasil dihapus.');
+    }
+
+    public function updateSuratIjinKegiatan(string $id)
+    {
+        try {
+            $SuratIjinKegiatanByIdUpdate = $this->suratIjinKegiatanService->getSuratIjinKegiatanById($id);
+            return Inertia::render('DashboardAdmin/SuratIjinKegiatan/Update', [
+                'SuratIjinKegiatanByIdUpdate' => $SuratIjinKegiatanByIdUpdate
+            ]);
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $th->getMessage());
+        }
     }
 }
