@@ -17,9 +17,24 @@ class PelaporanMasyarakatRequest extends FormRequest
     {
         return [
             'nama' => 'required|string',
-            'jenis_kelamin' => 'required|string|in:Laki-laki, Perempuan',
+            'jenis_kelamin' => 'required|string|in:Laki-laki,Perempuan',
             'alamat' => 'required|string',
             'laporan' => 'required|string'
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'nama.required' => 'Nama wajib diisi.',
+            'nama.string' => 'Nama wajib text.',
+            'jenis_kelamin.required' => 'Jenis kelamin wajib diisi.',
+            'jenis_kelamin.string' => 'Jenis kelamin wajib text.',
+            'jenis_kelamin.in' => 'Jenis kelamin harus Laki-laki atau Perempuan.',
+            'alamat.required' => 'Alamat wajib diisi.',
+            'alamat.string' => 'Alamat wajib text.',
+            'laporan.required' => 'Laporan wajib diisi.',
+            'laporan.string' => 'Laporan wajib text.',
         ];
     }
 }
