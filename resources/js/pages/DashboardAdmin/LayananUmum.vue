@@ -1,17 +1,34 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/vue3';
-import { defineProps, ref, computed } from 'vue';
+import { Head, usePage } from '@inertiajs/vue3';
+import { defineProps, ref, computed, watch } from 'vue';
 import PlaceholderPattern from "@/components/PlaceholderPattern.vue";
 import SuratIjinKegiatan from "@/components/layananumum/SuratIjinKegiatanComponent.vue";
 import PelaporanMasyarakat from "@/components/layananumum/PelaporanMasyarakatComponent.vue";
+import { notify } from '@kyvg/vue3-notification';
+
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Layanan Umum',
         href: '/layanan-umum',
     },
 ];
+
+
+// handle notifiation
+const flash = computed(() => usePage().props.flash);
+
+watch(flash, (value: any) => {
+  if (value?.success) {
+    notify({
+      title: "Sukses!",
+      text: value.success,
+      type: "success",
+      duration: 3000,
+    });
+  }
+}, { immediate: true });
 
 // select layanan umum
 const selectedLayananUmum = ref('surat_ijin_kegiatan');
@@ -31,6 +48,8 @@ const dataPelaporanMasyarakat = computed(() => props?.dataPelaporanMasyarakat);
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
+             <!-- notifikasi -->
+        <Notifications/>
             <!-- option layanan umum -->
              <select v-model="selectedLayananUmum" class="border border-gray-300 rounded-md p-2">
                 <option value="surat_ijin_kegiatan">Surat Ijin Kegiatan</option>

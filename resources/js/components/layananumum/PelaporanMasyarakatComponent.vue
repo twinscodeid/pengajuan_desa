@@ -15,6 +15,13 @@ const props = defineProps({
     datalapor: Object
 })
 
+const sendEmail = (id: any) => {
+    router.post(route('pelaporan-masyarakat.send-email', id), {}, {
+        onSuccess: () => alert('Email terkirim!'),
+        onError: () => alert('Gagal mengirim email.')
+    })
+}
+
 </script>
 
 <template>
@@ -65,7 +72,7 @@ const props = defineProps({
 
                                 <!-- Send Email -->
                                 <button @click="sendEmail(item.id)"
-                                    class="flex items-center px-3 py-2 rounded-md text-white bg-yellow-600 font-medium hover:bg-yellow-800">
+                                    class="flex cursor-pointer items-center px-3 py-2 rounded-md text-white bg-yellow-600 font-medium hover:bg-yellow-800">
                                     <Mail class="w-4 h-4" />
                                 </button>
                             </div>
@@ -77,16 +84,16 @@ const props = defineProps({
             <!-- handle paginate -->
             <div class="flex justify-end items-center gap-2 mt-4">
                 <Button variant="outline" size="sm" class="py-1 px-3 bg-[#bbe5e1] rounded-md cursor-pointer"
-                    @click="goToPage(props?.data?.current_page - 1)" :disabled="!props?.data?.prev_page_url">
+                    @click="goToPage(props?.datalapor?.current_page - 1)" :disabled="!props?.datalapor?.prev_page_url">
                     &laquo;
                 </Button>
 
                 <span class="text-sm">
-                    Halaman {{ props?.data?.current_page }} dari {{ props?.data?.last_page }}
+                    Halaman {{ props?.datalapor?.current_page }} dari {{ props?.datalapor?.last_page }}
                 </span>
 
                 <Button variant="outline" size="sm" class="py-1 px-3 bg-[#bbe5e1] rounded-md cursor-pointer"
-                    @click="goToPage(props?.data?.current_page + 1)" :disabled="!props?.data?.next_page_url">
+                    @click="goToPage(props?.datalapor?.current_page + 1)" :disabled="!props?.datalapor?.next_page_url">
                     &raquo;
                 </Button>
             </div>
