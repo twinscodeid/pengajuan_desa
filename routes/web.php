@@ -5,6 +5,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\SuratIjinKegiatan\SuratIjinKegiatanController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\PelaporanMasyarakat\PelaporanMasyarakatController;
+use App\Http\Controllers\BantuanSosial\BantuanSosialController;
 use App\Http\Controllers\FileController;
 use App\Http\Requests\SuratIjinKegiatan;
 
@@ -24,6 +25,7 @@ Route::middleware(['auth', 'user.role'])->group(function () {
     // route user send data
     Route::post('/surat-ijin-kegiatan', [SuratIjinKegiatanController::class, 'store'])->name('surat-ijin-kegiatan.store');
     Route::post('/laporan-masyarakat', [PelaporanMasyarakatController::class, 'store'])->name('laporan-masyarakat.store');
+    Route::post('/bantuan-sosial', [BantuanSosialController::class, 'store'])->name('bantuan-sosial.store');
 });
 
 // route admin
@@ -40,6 +42,14 @@ Route::middleware(['auth', 'admin.role'])->group(function () {
     Route::get('/pelaporan-masyarakat/{id}', [PelaporanMasyarakatController::class, 'show'])->name('pelaporan-masyarakat.show');
     Route::delete('/pelaporan-masyarakat/{id}', [PelaporanMasyarakatController::class, 'destroy'])->name('pelaporan-masyarakat.destroy');
     Route::post('/send-email/{id}', [PelaporanMasyarakatController::class, 'sendEmail'])->name('pelaporan-masyarakat.send-email');
+    // route admin bantuan sosial
+    Route::get('/bantuan-sosial-edit/{id}', [DashboardController::class, 'updateBantuanSosial'])->name('bantuan-sosial.edit');
+    Route::get('/bantuan-sosial/{id}', [BantuanSosialController::class, 'show'])->name('bantuan-sosial.show');
+    Route::delete('/bantuan-sosial-destroy/{id}', [BantuanSosialController::class, 'destroy'])->name('bantuan-sosial.destroy');
+    Route::put('/bantuan-sosial-update/{id}', [BantuanSosialController::class, 'update'])->name('bantuan-sosial.update');
+    Route::post('/send-email/{id}', [BantuanSosialController::class, 'sendEmail'])->name('bantuan-sosial.send-email');
+
+
     Route::get('/private-image/{filename}', [FileController::class, 'showPrivateImage'])->name('private.image');
 });
 
