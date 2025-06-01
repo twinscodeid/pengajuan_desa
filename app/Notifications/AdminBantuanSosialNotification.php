@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class AdminPelaporanMasyarakatNotification extends Notification
+class AdminBantuanSosialNotification extends Notification
 {
     use Queueable;
 
@@ -36,9 +36,9 @@ class AdminPelaporanMasyarakatNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('New Pelaporan Masyarakat')
-            ->greeting('Hi... admin ' . $this->data->name)
-            ->line('Ada pelaporan masyarakat baru, cek di web pengajuan desa cepogo yaaa...')
+            ->subject('New Bantuan Sosial')
+            ->greeting('Hi... admin' . $this->data->name)
+            ->line('Ada bantuan sosial baru, cek di web pengajuan desa cepogo yaaa...')
             ->action('Atau lihat Pengajuan', url('/layanan-umum'))
             ->salutation('Salam, Desa Cepogo');
     }

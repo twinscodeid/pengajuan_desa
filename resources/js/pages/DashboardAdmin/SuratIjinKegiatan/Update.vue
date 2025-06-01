@@ -1,16 +1,30 @@
 <script setup lang="ts">
-import { Head, Link, useForm } from "@inertiajs/vue3"
+import { Head, Link, useForm, usePage } from "@inertiajs/vue3"
 import { Input } from "@/components/ui/input";
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
-import { ref, watch, onMounted, defineProps } from 'vue'
+import { computed, watch, onMounted, defineProps } from 'vue'
+import { notify } from '@kyvg/vue3-notification';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Edit Surat Ijin Kegiatan',
+        title: 'Surat Ijin Kegiatan',
         href: '/surat-ijin-kegiatan-get',
     },
 ];
+
+const flash = computed(() => usePage().props.flash);
+
+watch(flash, (value: any) => {
+  if (value?.success) {
+    notify({
+      title: "Sukses!",
+      text: value.success,
+      type: "success",
+      duration: 3000,
+    });
+  }
+}, { immediate: true });
 
 type SuratIjinKegiatanUpdate = {
     nama: string,
@@ -85,8 +99,8 @@ const handleUpdate = () => {
     <div>
 
         <Head title="Edit Surat Ijin Kegiatan" />
-
         <AppLayout :breadcrumbs="breadcrumbs">
+            <Notifications/>
             <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
                 <h1 class="text-2xl mb-4">Update Surat Ijin Kegiatan</h1>
                 <form @submit.prevent="handleUpdate" class="space-y-6">
@@ -127,7 +141,7 @@ const handleUpdate = () => {
                             <div>
                                 <label for="jenis_kelamin" class="block mb-1 font-medium text-sm text-gray-700">Jenis
                                     Kelamin</label>
-                                <select id="jenis_kelamin" class="w-full rounded-md border p-1 border-gray-300"
+                                <select id="jenis_kelamin" class="w-full rounded-md border p-2 border-gray-300"
                                     v-model="formUpdate.jenis_kelamin">
                                     <option value="" disabled>Pilih jenis kelamin</option>
                                     <option value="Laki-laki">Laki-laki</option>
@@ -138,14 +152,14 @@ const handleUpdate = () => {
                             <div>
                                 <label for="tujuan_kegiatan" class="block mb-1 font-medium text-sm text-gray-700">Tujuan
                                     Kegiatan</label>
-                                <textarea  id="tujuan_kegiatan" v-model="formUpdate.tujuan_kegiatan" class="w-full rounded-md border border-gray-300"></textarea>
+                                <textarea  id="tujuan_kegiatan" v-model="formUpdate.tujuan_kegiatan" class="w-full rounded-md border p-2 border-gray-300"></textarea>
                             </div>
                         </div>
                     </div>
 
                     <div class="flex justify-end">
-                        <button type="submit" class="px-4 cursor-pointer py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                            Update Data
+                        <button type="submit" class="px-4 cursor-pointer py-2 bg-[#00bfa8] text-white rounded hover:bg-[#00bfa8]/80">
+                            Simpan Perubahan
                         </button>
                     </div>
                 </form>

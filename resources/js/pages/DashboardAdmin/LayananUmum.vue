@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
-import { Head, usePage } from '@inertiajs/vue3';
+import { Head, usePage, router } from '@inertiajs/vue3';
 import { defineProps, ref, computed, watch } from 'vue';
 import PlaceholderPattern from "@/components/PlaceholderPattern.vue";
 import SuratIjinKegiatan from "@/components/layananumum/SuratIjinKegiatanComponent.vue";
 import PelaporanMasyarakat from "@/components/layananumum/PelaporanMasyarakatComponent.vue";
+import BantuanSosial from "@/components/layananumum/BantuanSosialComponent.vue";
 import { notify } from '@kyvg/vue3-notification';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -33,18 +34,29 @@ watch(flash, (value: any) => {
 // select layanan umum
 const selectedLayananUmum = ref('surat_ijin_kegiatan');
 
+watch(selectedLayananUmum, (value: any) => {
+  router.get('/layanan-umum', { layanan: value }, {
+    preserveScroll: true,
+    preserveState: true,
+    replace: true,
+  });
+});
+
+
 // data props
 const props = defineProps({
     dataSuratIjinKegiatan: Object,
-    dataPelaporanMasyarakat: Object
+    dataPelaporanMasyarakat: Object,
+    dataBantuanSosial: Object
 })
 const dataSuratIjinKegiatan = computed(() => props?.dataSuratIjinKegiatan);
 const dataPelaporanMasyarakat = computed(() => props?.dataPelaporanMasyarakat);
+const dataBantuanSosial = computed(() => props?.dataBantuanSosial);
 </script>
 
 <template>
 
-    <Head title="Dashboard" />
+    <Head title="Layanan Umum" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
@@ -61,6 +73,9 @@ const dataPelaporanMasyarakat = computed(() => props?.dataPelaporanMasyarakat);
 
              <!-- bagian data layanan umum pelaporan masyarakat -->
               <PelaporanMasyarakat :datalapor="dataPelaporanMasyarakat" v-if="selectedLayananUmum === 'pelaporan_masyarakat'"/>
+
+              <!-- bagian data layanan umum bantuan sosial -->
+               <BantuanSosial :dataBantuan="dataBantuanSosial" v-if="selectedLayananUmum === 'bantuan_sosial'"/>
         </div>
     </AppLayout>
 </template>

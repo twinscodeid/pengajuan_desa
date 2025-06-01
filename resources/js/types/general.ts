@@ -15,3 +15,17 @@ export type LaporanMasyarakat = {
     alamat: string,
     laporan: string
 }
+
+export type BantuanSosial = {
+    nama: string,
+    nik: string,
+    tanggal_lahir: string,
+    jenis_kelamin: string,
+    status_perkawinan: string,
+    agama: string,
+    kewarganegaraan: string,
+    alamat: string,
+    pekerjaan: string,
+    no_hp: string,
+    image_pengantar_rt_rw: File[]
+}

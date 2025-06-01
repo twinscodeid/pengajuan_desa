@@ -14,7 +14,7 @@ const props = defineProps({
 });
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Detail Surat Ijin Kegiatan',
+        title: 'Surat Ijin Kegiatan',
         href: '/pelaporan-masyarakat',
     },
 ];
@@ -26,11 +26,11 @@ const data = props?.dataSuratIjinKegiatanById;
     <Head title="Detail Surat Ijin Kegiatan" />
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-            <div class="p-6 sm:p-8 rounded-lg space-y-6">
-                <h2 class="text-2xl font-bold text-slate-800">Detail Surat Ijin Kegiatan</h2>
+            <h2 class="text-2xl font-bold text-slate-800">Detail Surat Ijin Kegiatan</h2>
+            <div class="p-6 sm:p-8 rounded-lg space-y-6 shadow">
 
                 <div class="grid md:grid-cols-2 gap-6 text-sm text-slate-700">
-                    <div>
+                    <div class="space-y-2">
                         <p><span class="font-semibold">Nama:</span> {{ data?.nama }}</p>
                         <p><span class="font-semibold">Alamat:</span> {{ data?.alamat }}</p>
                         <p><span class="font-semibold">Tempat Kegiatan:</span> {{ data?.tempat_kegiatan }}</p>
@@ -38,7 +38,7 @@ const data = props?.dataSuratIjinKegiatanById;
                             dayjs(data?.tanggal_kegiatan).format('D MMMM YYYY') }}</p>
                     </div>
 
-                    <div>
+                    <div class="space-y-2">
                         <p><span class="font-semibold">No HP:</span> {{ data?.no_hp }}</p>
                         <p><span class="font-semibold">Jenis Kelamin:</span> {{ data?.jenis_kelamin }}</p>
                         <p><span class="font-semibold">Tujuan Kegiatan:</span> {{ data?.tujuan_kegiatan }}</p>
