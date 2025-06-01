@@ -7,6 +7,9 @@ use App\Models\PelaporanMasyarakat;
 use Illuminate\Http\Request;
 use App\Services\PelaporanMasyarakatService;
 use App\Http\Requests\PelaporanMasyarakatRequest;
+use App\Notifications\PelaporanMasyarakatNotification;
+use App\Notifications\AdminPelaporanMasyarakatNotification;
+use App\Models\User;
 use Inertia\Inertia;
 
 class PelaporanMasyarakatController extends Controller
@@ -37,6 +40,10 @@ class PelaporanMasyarakatController extends Controller
             $data = $request->validated();
             $data['user_id'] = auth()->user()->id;
             $this->pelaporanMasyarakatService->storePelaporanMasyarakat($data);
+
+            // ambil data admin
+            $admin = User::where('role', 'admin')->first();
+            $admin->notify(new AdminPelaporanMasyarakatNotification($admin));
             return redirect()->back()->with('success', 'Laporan berhasil dikirim.');
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $th->getMessage());
@@ -63,6 +70,19 @@ class PelaporanMasyarakatController extends Controller
         try {
             $this->pelaporanMasyarakatService->destroyPelaporanMasyarakat($id);
             return redirect()->back()->with('success', 'Laporan berhasil dihapus.');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $th->getMessage());
+        }
+    }
+
+    public function sendEmail($id)
+    {
+        try {
+            $pelaporanMasyarakatById = $this->pelaporanMasyarakatService->getPelaporanMasyarakatById($id);
+            if ($pelaporanMasyarakatById) {
+                $pelaporanMasyarakatById->user->notify(new PelaporanMasyarakatNotification($pelaporanMasyarakatById));
+                return redirect()->back()->with('success', 'Laporan berhasil dikirim ke user.');
+            }
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $th->getMessage());
         }

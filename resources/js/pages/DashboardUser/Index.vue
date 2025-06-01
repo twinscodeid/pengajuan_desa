@@ -121,7 +121,7 @@ const submitForm = () => {
                 </select>
 
                 <!-- ====================== SURAT PENGANTAR SKCK ====================== -->
-                <div class="mt-4" v-if="form.selectedOption === 'surat'">
+                <!-- <div class="mt-4" v-if="form.selectedOption === 'surat'">
                     <label for="form">Form Surat</label>
 
                     <div>
@@ -191,7 +191,7 @@ const submitForm = () => {
                         <label class="mb-1 block font-semibold">No HP</label>
                         <input type="text" name="no_hp" class="w-full rounded border border-gray-300 px-3 py-2" required />
                     </div>
-                </div>
+                </div> -->
 
                 <!-- ====================== SURAT IZIN KEGIATAN ====================== -->
                 <div class="mt-4" v-if="form.selectedOption === 'izin'">
@@ -420,12 +420,14 @@ const submitForm = () => {
 
                     <div>
                         <label class="mb-1 block font-semibold">Nama</label>
-                        <input type="text" name="nama" class="w-full rounded border border-gray-300 px-3 py-2" required v-model="dataLaporanMasyarakat.nama" />
+                        <div v-if="errors.nama" class="text-red-500 text-sm">{{ errors.nama }}</div>
+                        <input type="text" name="nama" class="w-full rounded border border-gray-300 px-3 py-2" v-model="dataLaporanMasyarakat.nama" />
                     </div>
 
                     <div>
                         <label class="mb-1 block font-semibold">Jenis Kelamin</label>
-                        <select name="jenis_kelamin" class="w-full rounded border border-gray-300 px-3 py-2" required v-model="dataLaporanMasyarakat.jenis_kelamin">
+                        <div v-if="errors.jenis_kelamin" class="text-red-500 text-sm">{{ errors.jenis_kelamin }}</div>
+                        <select name="jenis_kelamin" class="w-full rounded border border-gray-300 px-3 py-2" v-model="dataLaporanMasyarakat.jenis_kelamin">
                             <option value="">-- Pilih --</option>
                             <option value="Laki-laki">Laki-laki</option>
                             <option value="Perempuan">Perempuan</option>
@@ -434,17 +436,18 @@ const submitForm = () => {
 
                     <div>
                         <label class="mb-1 block font-semibold">Alamat</label>
-                        <textarea name="alamat" class="w-full rounded border border-gray-300 px-3 py-2" rows="3" required v-model="dataLaporanMasyarakat.alamat"></textarea>
+                        <div v-if="errors.alamat" class="text-red-500 text-sm">{{ errors.alamat }}</div>
+                        <textarea name="alamat" class="w-full rounded border border-gray-300 px-3 py-2" rows="3" v-model="dataLaporanMasyarakat.alamat"></textarea>
                     </div>
 
                     <div>
                         <label class="mb-1 block font-semibold">Isi Laporan</label>
+                        <div v-if="errors.laporan" class="text-red-500 text-sm">{{ errors.laporan }}</div>
                         <textarea
                             name="laporan"
                             class="w-full rounded border border-gray-300 px-3 py-2"
                             rows="5"
                             placeholder="Tuliskan laporan masyarakat..."
-                            required
                             v-model="dataLaporanMasyarakat.laporan"
                         ></textarea>
                     </div>

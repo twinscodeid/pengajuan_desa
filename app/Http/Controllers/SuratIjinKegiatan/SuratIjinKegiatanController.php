@@ -114,7 +114,7 @@ class SuratIjinKegiatanController extends Controller
             if (!file_exists($dataPdfUser)) {
                 return redirect()->back()->with('error', 'File PDF tidak ditemukan.');
             }
-            // Mail::to($SuratIjinKegiatanById->user->email)->send(new IjinKegiatan($SuratIjinKegiatanById, $dataPdfUser));
+            // Mail::to($SuratIjinKegiatanById->user->email)->send(new IjinKegiatan($SuratIjinKegiatan ById, $dataPdfUser));
             $SuratIjinKegiatanById->user->notify(new SuratIjinKegiatanNotification($SuratIjinKegiatanById, $dataPdfUser));
             redirect()->back()->with('success', 'Surat Ijin Kegiatan berhasil dikirim.');
         } catch (\Throwable $th) {

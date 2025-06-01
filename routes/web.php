@@ -39,6 +39,7 @@ Route::middleware(['auth', 'admin.role'])->group(function () {
     // route admin pelaporan masyarakat
     Route::get('/pelaporan-masyarakat/{id}', [PelaporanMasyarakatController::class, 'show'])->name('pelaporan-masyarakat.show');
     Route::delete('/pelaporan-masyarakat/{id}', [PelaporanMasyarakatController::class, 'destroy'])->name('pelaporan-masyarakat.destroy');
+    Route::post('/send-email/{id}', [PelaporanMasyarakatController::class, 'sendEmail'])->name('pelaporan-masyarakat.send-email');
     Route::get('/private-image/{filename}', [FileController::class, 'showPrivateImage'])->name('private.image');
 });
 

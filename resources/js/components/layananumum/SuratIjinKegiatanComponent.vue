@@ -96,16 +96,16 @@ const sendEmail = (id: any) => {
             <!-- handle paginate -->
             <div class="flex justify-end items-center gap-2 mt-4">
                 <Button variant="outline" size="sm" class="py-1 px-3 bg-[#bbe5e1] rounded-md cursor-pointer"
-                    @click="goToPage(props?.data?.current_page - 1)" :disabled="!props?.data?.prev_page_url">
+                    @click="goToPage(props?.dataIjin?.current_page - 1)" :disabled="!props?.dataIjin?.prev_page_url">
                     &laquo;
                 </Button>
 
                 <span class="text-sm">
-                    Halaman {{ props?.data?.current_page }} dari {{ props?.data?.last_page }}
+                    Halaman {{ props?.dataIjin?.current_page }} dari {{ props?.dataIjin?.last_page }}
                 </span>
 
                 <Button variant="outline" size="sm" class="py-1 px-3 bg-[#bbe5e1] rounded-md cursor-pointer"
-                    @click="goToPage(props?.data?.current_page + 1)" :disabled="!props?.data?.next_page_url">
+                    @click="goToPage(props?.dataIjin?.current_page + 1)" :disabled="!props?.dataIjin?.next_page_url">
                     &raquo;
                 </Button>
             </div>
