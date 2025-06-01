@@ -3,13 +3,14 @@ import { Head, Link } from '@inertiajs/vue3';
 </script>
 
 <template>
-    <Head title="Welcome"></Head>
+    <Head title="Selamat Datang"></Head>
 
     <div class="min-h-screen bg-gray-100">
         <!-- Header -->
         <header class="flex items-center justify-between bg-white p-6 shadow-md">
-            <div class="text-xl font-bold">Logo</div>
-            <img src="#" alt="" class="" />
+            <div class="text-xl font-bold">
+                <img src="../asset/img/logo.png" alt="logo" width="50" />
+            </div>
             <div v-if="$page.props.auth.user?.role === 'user'">
                 <Link :href="route('dashboard.index.user')" class="text-blue-600 hover:underline">Dashboard</Link>
             </div>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import gambarForm from '@/asset/img/FORM1.png';
-import { SuratIjinKegiatan, LaporanMasyarakat } from '@/types/general';
-import { Link, useForm, usePage } from '@inertiajs/vue3';
+import { SuratIjinKegiatan, LaporanMasyarakat, BantuanSosial } from '@/types/general';
+import { Link, useForm, usePage, Head } from '@inertiajs/vue3';
 import { reactive, watch, computed } from 'vue';
 import { UserCircleIcon } from '@heroicons/vue/24/solid';
 import { notify } from '@kyvg/vue3-notification';
@@ -47,6 +47,20 @@ const dataLaporanMasyarakat = useForm<LaporanMasyarakat>({
     laporan: '',
 })
 
+const dataBantuanSosial = useForm<BantuanSosial>({
+    nama: '',
+    nik: '',
+    tanggal_lahir: '',
+    jenis_kelamin: '',
+    status_perkawinan: '',
+    agama: '',
+    kewarganegaraan: '',
+    alamat: '',
+    pekerjaan: '',
+    no_hp: '',
+    image_pengantar_rt_rw: [],
+})
+
 // method hanlde image
 const handleFiles = (event: Event) => {
     const target = event.target as HTMLInputElement;
@@ -61,6 +75,20 @@ const handleFiles = (event: Event) => {
 
     dataIjinKegiatan.image_pengantar_rt_rw = files;
 };
+
+const handleFilesBantuanSosial = (event: Event) => {
+    const target = event.target as HTMLInputElement;
+    const file = target.files ? Array.from(target.files) : [];
+
+    if(file.length > 2) {
+        alert('Jumlah file tidak boleh lebih dari 1');
+        target.value = '';
+        dataBantuanSosial.image_pengantar_rt_rw = [];
+        return;
+    }
+
+    dataBantuanSosial.image_pengantar_rt_rw = file;
+}
 
 // Method submit
 const submitForm = () => {
@@ -85,11 +113,23 @@ const submitForm = () => {
                 console.log(errors.value);
             },
         });
+    } else if(form.selectedOption === 'bantuan_sosial') {
+        dataBantuanSosial.post(route('bantuan-sosial.store'), {
+            forceFormData: true,
+            onSuccess: () => {
+                form.selectedOption = '';
+                dataBantuanSosial.reset();
+            },
+            onError: (errors: any) => {
+                console.log(errors.value);
+            }
+        })
     }
 };
 </script>
 
 <template>
+    <Head title="Dashboard User"/>
     <div class="page-wrapper relative min-h-screen">
         <!-- notifikasi -->
         <Notifications/>
@@ -288,9 +328,6 @@ const submitForm = () => {
                             >
                                 Telusuri
                             </label>
-
-                            <!-- Nama file jika sudah dipilih -->
-                            <!-- <span v-if="fileName" class="max-w-xs truncate text-sm text-gray-600">{{ fileName }}</span> -->
                         </div>
 
                         <!-- Input file disembunyikan -->
@@ -322,22 +359,26 @@ const submitForm = () => {
 
                     <div>
                         <label class="mb-1 block font-semibold">Nama Lengkap</label>
-                        <input type="text" name="nama" class="w-full rounded border border-gray-300 px-3 py-2" required />
+                        <div v-if="errors.nama" class="text-red-500 text-sm">{{ errors.nama }}</div>
+                        <input type="text" name="nama" class="w-full rounded border border-gray-300 px-3 py-2" v-model="dataBantuanSosial.nama" />
                     </div>
 
                     <div>
                         <label class="mb-1 block font-semibold">NIK</label>
-                        <input type="text" name="nik" class="w-full rounded border border-gray-300 px-3 py-2" required />
+                        <div v-if="errors.nik" class="text-red-500 text-sm">{{ errors.nik }}</div>
+                        <input type="text" name="nik" class="w-full rounded border border-gray-300 px-3 py-2" v-model="dataBantuanSosial.nik" />
                     </div>
 
                     <div>
-                        <label class="mb-1 block font-semibold">Tempat Tanggal Lahir</label>
-                        <input type="date" name="tgl_lahir" class="w-full rounded border border-gray-300 px-3 py-2" required />
+                        <label class="mb-1 block font-semibold">Tanggal Lahir</label>
+                        <div v-if="errors.tanggal_lahir" class="text-red-500 text-sm">{{ errors.tanggal_lahir }}</div>
+                        <input type="date" name="tanggal_lahir" class="w-full rounded border border-gray-300 px-3 py-2" v-model="dataBantuanSosial.tanggal_lahir" />
                     </div>
 
                     <div>
                         <label class="mb-1 block font-semibold">Jenis Kelamin</label>
-                        <select name="jenis_kelamin" class="w-full rounded border border-gray-300 px-3 py-2" required>
+                        <div v-if="errors.jenis_kelamin" class="text-red-500 text-sm">{{ errors.jenis_kelamin }}</div>
+                        <select name="jenis_kelamin" class="w-full rounded border border-gray-300 px-3 py-2" v-model="dataBantuanSosial.jenis_kelamin">
                             <option value="">-- Pilih --</option>
                             <option value="Laki-laki">Laki-laki</option>
                             <option value="Perempuan">Perempuan</option>
@@ -346,10 +387,11 @@ const submitForm = () => {
 
                     <div>
                         <label class="mb-1 block font-semibold">Status Perkawinan</label>
-                        <select name="status_perkawinan" class="w-full rounded border border-gray-300 px-3 py-2" required>
+                        <div v-if="errors.status_perkawinan" class="text-red-500 text-sm">{{ errors.status_perkawinan }}</div>
+                        <select name="status_perkawinan" class="w-full rounded border border-gray-300 px-3 py-2" v-model="dataBantuanSosial.status_perkawinan">
                             <option value="">-- Pilih --</option>
-                            <option value="Belum-Menikah">Belum Kawin</option>
-                            <option value="Menikah">Kawin</option>
+                            <option value="Belum Kawin">Belum Kawin</option>
+                            <option value="Kawin">Kawin</option>
                             <option value="Cerai Hidup">Cerai Hidup</option>
                             <option value="Cerai Mati">Cerai Mati</option>
                         </select>
@@ -357,61 +399,78 @@ const submitForm = () => {
 
                     <div>
                         <label class="mb-1 block font-semibold">Agama</label>
-                        <select name="agama" class="w-full rounded border border-gray-300 px-3 py-2" required>
+                        <div v-if="errors.agama" class="text-red-500 text-sm">{{ errors.agama }}</div>
+                        <select name="agama" class="w-full rounded border border-gray-300 px-3 py-2" v-model="dataBantuanSosial.agama">
                             <option value="">-- Pilih --</option>
-                            <option value="islam">Islam</option>
-                            <option value="kristen">Kristen</option>
-                            <option value="hindu">Hindu</option>
-                            <option value="budha">Budha</option>
-                            <option value="katholik">Katholik</option>
-                            <option value="konghucu">Konghucu</option>
+                            <option value="Islam">Islam</option>
+                            <option value="Kristen">Kristen</option>
+                            <option value="Hindu">Hindu</option>
+                            <option value="Budha">Budha</option>
+                            <option value="Katholik">Katholik</option>
+                            <option value="Konghucu">Konghucu</option>
                         </select>
                     </div>
 
                     <div>
                         <label class="mb-1 block font-semibold">Kewarganegaraan</label>
-                        <input type="text" name="kewarganegaraan" class="w-full rounded border border-gray-300 px-3 py-2" required />
+                        <div v-if="errors.kewarganegaraan" class="text-red-500 text-sm">{{ errors.kewarganegaraan }}</div>
+                        <input type="text" name="kewarganegaraan" class="w-full rounded border border-gray-300 px-3 py-2" v-model="dataBantuanSosial.kewarganegaraan" />
                     </div>
 
                     <div>
                         <label class="mb-1 block font-semibold">Alamat</label>
-                        <textarea name="alamat" class="w-full rounded border border-gray-300 px-3 py-2" rows="3" required></textarea>
+                        <div v-if="errors.alamat" class="text-red-500 text-sm">{{ errors.alamat }}</div>
+                        <textarea name="alamat" class="w-full rounded border border-gray-300 px-3 py-2" rows="3" v-model="dataBantuanSosial.alamat"></textarea>
                     </div>
 
                     <div>
                         <label class="mb-1 block font-semibold">Pekerjaan</label>
-                        <input type="text" name="pekerjaan" class="w-full rounded border border-gray-300 px-3 py-2" required />
+                        <div v-if="errors.pekerjaan" class="text-red-500 text-sm">{{ errors.pekerjaan }}</div>
+                        <input type="text" name="pekerjaan" class="w-full rounded border border-gray-300 px-3 py-2" v-model="dataBantuanSosial.pekerjaan" />
                     </div>
 
                     <div>
                         <label class="mb-1 block font-semibold">No HP</label>
-                        <input type="text" name="no_hp" class="w-full rounded border border-gray-300 px-3 py-2" required />
+                        <div v-if="errors.no_hp" class="text-red-500 text-sm">{{ errors.no_hp }}</div>
+                        <input type="text" name="no_hp" class="w-full rounded border border-gray-300 px-3 py-2" v-model="dataBantuanSosial.no_hp" />
                     </div>
                     <!-- Surat Keterangan Rt/Rw -->
+                    <div>
+                        <label class="mb-1 block font-semibold">Upload Dokumen (Surat Keterangan RT/RW)</label>
+                        <span>type file : jpg, jpeg, png | max 2mb | min-max 2 file</span>
+                        <div v-if="errors.image_pengantar_rt_rw" class="text-red-500 text-sm">{{ errors.image_pengantar_rt_rw }}</div>
+                        <div class="flex items-center space-x-4">
+                            <!-- Tombol custom Telusuri -->
+                            <label
+                                for="dokumen"
+                                class="cursor-pointer rounded bg-gray-400 px-4 py-2 font-semibold text-white transition hover:bg-gray-500"
+                            >
+                                Telusuri
+                            </label>
+                        </div>
 
-                    <label class="mb-1 block font-semibold">Upload Dokumen (Surat Keterangan RT/RW)</label>
+                        <!-- Input file disembunyikan -->
+                        <input
+                            id="dokumen"
+                            class="hidden"
+                            type="file"
+                            multiple
+                            accept="image/*"
+                            name="image_pengantar_rt_rw[]"
+                            @change="handleFilesBantuanSosial"
+                        />
 
-                    <div class="flex items-center space-x-4">
-                        <!-- Tombol custom Telusuri -->
-                        <label
-                            for="dokumen"
-                            class="cursor-pointer rounded bg-gray-400 px-4 py-2 font-semibold text-white transition hover:bg-gray-500"
-                        >
-                            Telusuri
-                        </label>
+                        <div v-if="dataBantuanSosial.image_pengantar_rt_rw.length">
+                            <p v-for="(image, index) in dataBantuanSosial.image_pengantar_rt_rw" :key="index">
+                                {{ image.name }}
+                            </p>
+                        </div>
 
-                        <!-- Nama file jika sudah dipilih -->
-                        <span v-if="fileName" class="max-w-xs truncate text-sm text-gray-600">{{ fileName }}</span>
+                        <progress v-if="dataBantuanSosial.progress" :value="dataBantuanSosial.progress.percentage" max="100">
+                            {{ dataBantuanSosial.progress.percentage }}%
+                        </progress>
                     </div>
 
-                    <!-- Input file disembunyikan -->
-                    <input type="file" id="dokumen" name="dokumen" accept="image/*,.pdf" class="hidden" @change="previewGambar" required />
-
-                    <!-- Preview gambar -->
-                    <div v-if="previewUrl" class="mt-2">
-                        <label class="mb-1 block font-medium">Preview:</label>
-                        <img :src="previewUrl" alt="Preview Gambar" class="max-h-48 rounded border" />
-                    </div>
                 </div>
 
                 <!-- ====================== LAPORAN MASYARAKAT ====================== -->
