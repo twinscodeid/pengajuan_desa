@@ -26,4 +26,16 @@ class SuratIjinKegiatan extends Model
     {
         return $this->hasMany(ImageSuratPengantarRTRW::class);
     }
+    public static function getTotalSuratIjinKegiatan()
+    {
+        return self::count();
+    }
+    public static function getDailyCountsThisMonth()
+    {
+        return self::selectRaw('DAY(created_at) as day, COUNT(*) as total')
+            ->whereYear('created_at', now()->year)
+            ->whereMonth('created_at', now()->month)
+            ->groupBy('day')
+            ->pluck('total', 'day');
+    }
 }

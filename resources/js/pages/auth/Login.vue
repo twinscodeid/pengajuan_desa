@@ -6,7 +6,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AuthBase from '@/layouts/AuthLayout.vue';
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head, Link, useForm } from '@inertiajs/vue3';
 import { LoaderCircle } from 'lucide-vue-next';
 
 defineProps<{
@@ -28,8 +28,18 @@ const submit = () => {
 </script>
 
 <template>
-    <AuthBase title="Log in to your account" description="Enter your email and password below to log in">
+    <nav class="sticky top-0 z-50 flex items-center justify-between bg-white px-6 py-3 shadow-md">
+        <div class="flex items-center gap-2">
+            <Link :href="route('home')" class="flex items-center hover:underline cursor-pointer">
+            <span class="text-xl">←</span>
+            <span class="ml-1 font-medium">Kembali</span>
+            </Link>
+        </div>
+        <div></div>
+    </nav>
+    <AuthBase title="Log in ke akun kamu" description="Masukkan email dan password kamu sebelum login">
         <Head title="Log in" />
+
 
         <div v-if="status" class="mb-4 text-center text-sm font-medium text-green-600">
             {{ status }}
@@ -56,7 +66,7 @@ const submit = () => {
                     <div class="flex items-center justify-between">
                         <Label for="password">Password</Label>
                         <TextLink v-if="canResetPassword" :href="route('password.request')" class="text-sm" :tabindex="5">
-                            Forgot password?
+                            Lupa password?
                         </TextLink>
                     </div>
                     <Input
@@ -78,14 +88,14 @@ const submit = () => {
                     </Label>
                 </div>
 
-                <Button type="submit" class="mt-4 w-full" :tabindex="4" :disabled="form.processing">
+                <Button type="submit" class="mt-4 w-full bg-[#00bfa8] cursor-pointer" :tabindex="4" :disabled="form.processing">
                     <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
                     Log in
                 </Button>
             </div>
 
             <div class="text-center text-sm text-muted-foreground">
-                Don't have an account?
+                Belum punya akun?
                 <TextLink :href="route('register')" :tabindex="5">Sign up</TextLink>
             </div>
         </form>
