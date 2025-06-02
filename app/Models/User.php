@@ -59,4 +59,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(BantuanSosial::class);
     }
+
+    public static function getTotalRoleUser()
+    {
+        return self::where('role', 'user')->count();
+    }
 }

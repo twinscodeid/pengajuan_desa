@@ -16,7 +16,7 @@ const props = defineProps({
 })
 
 const sendEmail = (id: any) => {
-    router.post(route('pelaporan-masyarakat.send-email', id), {}, {
+    router.post(route('pelaporan-masyarakat.send-email-pelaporan', id), {}, {
         onSuccess: () => alert('Email terkirim!'),
         onError: () => alert('Gagal mengirim email.')
     })

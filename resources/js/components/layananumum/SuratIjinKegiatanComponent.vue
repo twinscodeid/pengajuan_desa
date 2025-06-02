@@ -23,7 +23,7 @@ const props = defineProps({
 })
 
 const sendEmail = (id: any) => {
-    router.post(route('surat-ijin-kegiatan.send-email', id), {}, {
+    router.post(route('surat-ijin-kegiatan.send-email-kegiatan', id), {}, {
         onSuccess: () => alert('Email terkirim!'),
         onError: () => alert('Gagal mengirim email.')
     })
@@ -72,7 +72,7 @@ const sendEmail = (id: any) => {
 
                                 <!-- Delete -->
                                 <Link :href="route('surat-ijin-kegiatan.destroy', item.id)" method="delete" as="button"
-                                    class="flex items-center px-3 py-2 rounded-md text-white bg-red-600 font-medium hover:bg-red-800">
+                                    class="flex items-center cursor-pointer px-3 py-2 rounded-md text-white bg-red-600 font-medium hover:bg-red-800">
                                 <Trash2 class="w-4 h-4" />
                                 </Link>
 
@@ -84,7 +84,7 @@ const sendEmail = (id: any) => {
 
                                 <!-- Send Email -->
                                 <button @click="sendEmail(item.id)"
-                                    class="flex items-center px-3 py-2 rounded-md text-white bg-yellow-600 font-medium hover:bg-yellow-800">
+                                    class="flex items-center px-3 py-2 cursor-pointer rounded-md text-white bg-yellow-600 font-medium hover:bg-yellow-800">
                                     <Mail class="w-4 h-4" />
                                 </button>
                             </div>

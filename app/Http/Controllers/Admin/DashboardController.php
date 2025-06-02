@@ -6,9 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\SuratIjinKegiatanService;
 use Inertia\Inertia;
-use App\Http\Requests\SuratIjinKegiatan;
 use App\Services\PelaporanMasyarakatService;
 use App\Services\BantuanSosialService;
+use App\Models\SuratIjinKegiatan;
+use App\Models\PelaporanMasyarakat;
+use App\Models\BantuanSosial;
+use App\Models\User;
 
 class DashboardController extends Controller
 {
@@ -24,7 +27,29 @@ class DashboardController extends Controller
     }
     public function index()
     {
-        return Inertia::render('DashboardAdmin/Index');
+
+        $daysInMonth = now()->daysInMonth;
+        $labels = collect(range(1, $daysInMonth))->map(fn($day) => str_pad($day, 2, '0', STR_PAD_LEFT));
+
+        $surat = SuratIjinKegiatan::getDailyCountsThisMonth();
+        $pelaporan = PelaporanMasyarakat::getDailyCountsThisMonth();
+        $bantuan = BantuanSosial::getDailyCountsThisMonth();
+
+        $suratData = $labels->map(fn($day) => $surat[(int)$day] ?? 0);
+        $pelaporanData = $labels->map(fn($day) => $pelaporan[(int)$day] ?? 0);
+        $bantuanData = $labels->map(fn($day) => $bantuan[(int)$day] ?? 0);
+
+
+        return Inertia::render('DashboardAdmin/Index', [
+            'totalSuratIjinKegiatan' => SuratIjinKegiatan::getTotalSuratIjinKegiatan(),
+            'totalPelaporanMasyarakat' => PelaporanMasyarakat::getTotalPelaporanMasyarakat(),
+            'totalBantuanSosial' => BantuanSosial::getTotalBantuanSosial(),
+            'totalRoleUser' => User::getTotalRoleUser(),
+            'labels' => $labels,
+            'suratData' => $suratData,
+            'pelaporanData' => $pelaporanData,
+            'bantuanData' => $bantuanData,
+        ]);
     }
 
     public function layananUmum()

@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AuthBase from '@/layouts/AuthLayout.vue';
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head, Link, useForm } from '@inertiajs/vue3';
 import { LoaderCircle } from 'lucide-vue-next';
 
 const form = useForm({
@@ -23,7 +23,17 @@ const submit = () => {
 </script>
 
 <template>
-    <AuthBase title="Create an account" description="Enter your details below to create your account">
+    <Head title="Login"/>
+    <nav class="sticky top-0 z-50 flex items-center justify-between bg-white px-6 py-3 shadow-md">
+        <div class="flex items-center gap-2">
+            <Link :href="route('home')" class="flex items-center hover:underline cursor-pointer">
+            <span class="text-xl">←</span>
+            <span class="ml-1 font-medium">Kembali</span>
+            </Link>
+        </div>
+        <div></div>
+    </nav>
+    <AuthBase title="Buat akun kamu" description="Masukkan detail input yang ada, dan pastikan email kamu bener-bener aktif ya">
         <Head title="Register" />
 
         <form @submit.prevent="submit" class="flex flex-col gap-6">
@@ -68,14 +78,14 @@ const submit = () => {
                     <InputError :message="form.errors.password_confirmation" />
                 </div>
 
-                <Button type="submit" class="mt-2 w-full" tabindex="5" :disabled="form.processing">
+                <Button type="submit" class="mt-2 w-full bg-[#00bfa8] cursor-pointer" tabindex="5" :disabled="form.processing">
                     <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
-                    Create account
+                    Buat akun kamu
                 </Button>
             </div>
 
             <div class="text-center text-sm text-muted-foreground">
-                Already have an account?
+                Sudah punya akun?
                 <TextLink :href="route('login')" class="underline underline-offset-4" :tabindex="6">Log in</TextLink>
             </div>
         </form>
