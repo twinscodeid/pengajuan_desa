@@ -10,6 +10,7 @@ use App\Http\Requests\PelaporanMasyarakatRequest;
 use App\Notifications\PelaporanMasyarakatNotification;
 use App\Notifications\AdminPelaporanMasyarakatNotification;
 use App\Models\User;
+use App\Models\PegawaiDesa;
 use Inertia\Inertia;
 
 class PelaporanMasyarakatController extends Controller
@@ -42,7 +43,7 @@ class PelaporanMasyarakatController extends Controller
             $this->pelaporanMasyarakatService->storePelaporanMasyarakat($data);
 
             // ambil data admin
-            $admin = User::where('role', 'admin')->first();
+            $admin = PegawaiDesa::where('role_id', '1')->first();
             $admin->notify(new AdminPelaporanMasyarakatNotification($admin));
             return redirect()->back()->with('success', 'Laporan berhasil dikirim.');
         } catch (\Throwable $th) {

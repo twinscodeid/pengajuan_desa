@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateBantuanSosialRequest;
 use App\Notifications\BantuanSosialNotification;
 use App\Notifications\AdminBantuanSosialNotification;
 use App\Models\User;
+use App\Models\PegawaiDesa;
 use Inertia\Inertia;
 
 class BantuanSosialController extends Controller
@@ -39,7 +40,7 @@ class BantuanSosialController extends Controller
             $data = $request->validated();
             $data['user_id'] = auth()->user()->id;
             $this->bantuanSosialService->createBantuanSosial($data);
-            $admin = User::where('role', 'admin')->first();
+            $admin = PegawaiDesa::where('role_id', '1')->first();
             $admin->notify(new AdminBantuanSosialNotification($admin));
             return redirect()->back()->with('success', 'Bantuan Sosial berhasil dikirim');
         } catch (\Throwable $th) {

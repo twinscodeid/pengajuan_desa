@@ -22,8 +22,8 @@ const submit = () => {
 </script>
 
 <template>
-    <AuthLayout title="Forgot password" description="Enter your email to receive a password reset link">
-        <Head title="Forgot password" />
+    <AuthLayout title="Lupa Passsword" description="Masukkan email kamu yang terdaftar ya">
+        <Head title="Lupa Password" />
 
         <div v-if="status" class="mb-4 text-center text-sm font-medium text-green-600">
             {{ status }}
@@ -46,7 +46,7 @@ const submit = () => {
             </form>
 
             <div class="space-x-1 text-center text-sm text-muted-foreground">
-                <span>Or, return to</span>
+                <span>Atau, Kembali ke</span>
                 <TextLink :href="route('login')">log in</TextLink>
             </div>
         </div>

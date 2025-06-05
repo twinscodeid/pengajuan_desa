@@ -19,9 +19,7 @@ Route::middleware(['auth', 'user.role'])->group(function () {
     Route::get('/dashboard-user', function () {
         return Inertia::render('DashboardUser/Index');
     })->name('dashboard.index.user');
-    Route::get('/profile', function () {
-        return Inertia::render('DashboardUser/Profile');
-    })->name('profile.user');
+    Route::get('/profile/{id}', [UserController::class, 'getProfileRoleUser'])->name('profile.user');
     Route::patch('/profile-user', [UserController::class, 'update'])->name('profile-user.update');
 
     // route user send data
@@ -31,29 +29,34 @@ Route::middleware(['auth', 'user.role'])->group(function () {
 });
 
 // route admin
-Route::middleware(['auth', 'admin.role'])->group(function () {
+Route::middleware(['auth:pegawai', 'admin.role'])->prefix('admin')->group(function () {
+
     Route::get('/dashboard-admin', [DashboardController::class, 'index'])->name('dashboard.index.admin');
     Route::get('/layanan-umum', [DashboardController::class, 'layananUmum'])->name('layanan.admin');
-    // route admin surat ijin kegiatan
-    Route::get('/surat-ijin-kegiatan-edit/{id}', [DashboardController::class, 'updateSuratIjinKegiatan'])->name('surat-ijin-kegiatan.edit');
+
+    // Route admin surat ijin kegiatan
+    Route::get('/surat-ijin-kegiatan/edit/{id}', [DashboardController::class, 'updateSuratIjinKegiatan'])->name('surat-ijin-kegiatan.edit');
     Route::get('/surat-ijin-kegiatan/{id}', [SuratIjinKegiatanController::class, 'show'])->name('surat-ijin-kegiatan.show');
-    Route::delete('/surat-ijin-destroy/{id}', [SuratIjinKegiatanController::class, 'destroy'])->name('surat-ijin-kegiatan.destroy');
-    Route::put('/surat-ijin-kegiatan-update/{id}', [SuratIjinKegiatanController::class, 'update'])->name('surat-ijin-kegiatan.update');
-    Route::post('/send-email-kegiatan/{id}', [SuratIjinKegiatanController::class, 'sendEmail'])->name('surat-ijin-kegiatan.send-email-kegiatan');
-    // route admin pelaporan masyarakat
+    Route::delete('/surat-ijin-kegiatan/{id}', [SuratIjinKegiatanController::class, 'destroy'])->name('surat-ijin-kegiatan.destroy');
+    Route::put('/surat-ijin-kegiatan/{id}', [SuratIjinKegiatanController::class, 'update'])->name('surat-ijin-kegiatan.update');
+    Route::post('/surat-ijin-kegiatan/send-email/{id}', [SuratIjinKegiatanController::class, 'sendEmail'])->name('surat-ijin-kegiatan.send-email-kegiatan');
+
+    // Route admin pelaporan masyarakat
     Route::get('/pelaporan-masyarakat/{id}', [PelaporanMasyarakatController::class, 'show'])->name('pelaporan-masyarakat.show');
     Route::delete('/pelaporan-masyarakat/{id}', [PelaporanMasyarakatController::class, 'destroy'])->name('pelaporan-masyarakat.destroy');
-    Route::post('/send-email-pelaporan/{id}', [PelaporanMasyarakatController::class, 'sendEmail'])->name('pelaporan-masyarakat.send-email-pelaporan');
-    // route admin bantuan sosial
-    Route::get('/bantuan-sosial-edit/{id}', [DashboardController::class, 'updateBantuanSosial'])->name('bantuan-sosial.edit');
+    Route::post('/pelaporan-masyarakat/send-email/{id}', [PelaporanMasyarakatController::class, 'sendEmail'])->name('pelaporan-masyarakat.send-email-pelaporan');
+
+    // Route admin bantuan sosial
+    Route::get('/bantuan-sosial/edit/{id}', [DashboardController::class, 'updateBantuanSosial'])->name('bantuan-sosial.edit');
     Route::get('/bantuan-sosial/{id}', [BantuanSosialController::class, 'show'])->name('bantuan-sosial.show');
-    Route::delete('/bantuan-sosial-destroy/{id}', [BantuanSosialController::class, 'destroy'])->name('bantuan-sosial.destroy');
-    Route::put('/bantuan-sosial-update/{id}', [BantuanSosialController::class, 'update'])->name('bantuan-sosial.update');
-    Route::post('/send-email-bantuan/{id}', [BantuanSosialController::class, 'sendEmail'])->name('bantuan-sosial.send-email-bantuan');
+    Route::delete('/bantuan-sosial/{id}', [BantuanSosialController::class, 'destroy'])->name('bantuan-sosial.destroy');
+    Route::put('/bantuan-sosial/{id}', [BantuanSosialController::class, 'update'])->name('bantuan-sosial.update');
+    Route::post('/bantuan-sosial/send-email/{id}', [BantuanSosialController::class, 'sendEmail'])->name('bantuan-sosial.send-email-bantuan');
 
-
+    // Private image
     Route::get('/private-image/{filename}', [FileController::class, 'showPrivateImage'])->name('private.image');
 });
+
 
 
 require __DIR__ . '/settings.php';

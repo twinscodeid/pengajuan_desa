@@ -11,10 +11,10 @@ import { Head, Link } from '@inertiajs/vue3';
             <div class="text-xl font-bold">
                 <img src="../asset/img/logo.png" alt="logo" width="50" />
             </div>
-            <div v-if="$page.props.auth.user?.role === 'user'">
+            <div v-if="$page.props.auth.user?.role_id === 2">
                 <Link :href="route('dashboard.index.user')" class="text-blue-600 hover:underline">Dashboard</Link>
             </div>
-            <div v-else-if="$page.props.auth.user?.role === 'admin'">
+            <div v-else-if="$page.props.auth.pegawai?.role_id === 1">
                 <Link :href="route('dashboard.index.admin')" class="text-blue-600 hover:underline">Dashboard</Link>
             </div>
             <div v-else>
@@ -28,7 +28,7 @@ import { Head, Link } from '@inertiajs/vue3';
         <div class="flex flex-col items-center justify-center gap-16 px-6 py-20 md:flex-row">
             <!-- Section Teks -->
             <section class="max-w-lg space-y-6 text-center text-black md:w-1/2 md:translate-x-[90px] md:text-left">
-                <h1 class="text-3xl font-bold">Selamat Datang di Forum Pengajuan Dan Pengaduan Masyarakat Desa Cepogo</h1>
+                <h1 class="text-3xl font-bold">Selamat Datang di Form Pengajuan Surat Dan Pengaduan Masyarakat Desa Cepogo</h1>
                 <button
                     class="rounded px-6 py-3 text-white transition duration-300"
                     style="background-color: #00bfa8"

@@ -19,7 +19,7 @@ class ProfileController extends Controller
     public function edit(Request $request): Response
     {
         return Inertia::render('settings/Profile', [
-            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
+            'mustVerifyEmail' => auth('pegawai')->user() instanceof MustVerifyEmail,
             'status' => $request->session()->get('status'),
         ]);
     }
@@ -29,16 +29,20 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        /** @var \App\Models\PegawaiDesa $user */
+        $user = auth('pegawai')->user();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        $user->fill($request->validated());
+
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
         }
 
-        $request->user()->save();
+        $user->save();
 
         return to_route('profile.edit');
     }
+
 
     /**
      * Delete the user's profile.
@@ -49,9 +53,10 @@ class ProfileController extends Controller
             'password' => ['required', 'current_password'],
         ]);
 
-        $user = $request->user();
+        /** @var \App\Models\PegawaiDesa $user */
+        $user = auth('pegawai')->user();
 
-        Auth::logout();
+        Auth::guard('pegawai')->logout();
 
         $user->delete();
 

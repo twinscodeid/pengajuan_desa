@@ -21,8 +21,8 @@ const submit = () => {
 </script>
 
 <template>
-    <AuthLayout title="Confirm your password" description="This is a secure area of the application. Please confirm your password before continuing.">
-        <Head title="Confirm password" />
+    <AuthLayout title="Konfirmasi Password" description="ini adalah area aman dari aplikasi. Harap konfirmasikan kata sandi Anda sebelum melanjutkan.">
+        <Head title="Konfirmasi Password" />
 
         <form @submit.prevent="submit">
             <div class="space-y-6">

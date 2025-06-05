@@ -40,6 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'pegawai' => [
+            'driver' => 'session',
+            'provider' => 'pegawai_desa',
+        ],
     ],
 
     /*
@@ -64,6 +68,10 @@ return [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
+        'pegawai_desa' => [
+            'driver' => 'eloquent',
+            'model' => env('AUTH_MODEL', App\Models\PegawaiDesa::class),
+        ]
 
         // 'users' => [
         //     'driver' => 'database',
@@ -97,6 +105,12 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
+        'pegawai' => [
+            'provider' => 'pegawai_desa',
+            'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
+            'expire' => 60,
+            'throttle' => 60,
+        ]
     ],
 
     /*

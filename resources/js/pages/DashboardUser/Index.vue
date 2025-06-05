@@ -10,6 +10,7 @@ import { notify } from '@kyvg/vue3-notification';
 // handle notifiation
 const flash = computed(() => usePage().props.flash);
 const errors = computed(() => usePage().props.errors);
+const userId = computed(() => usePage().props.auth.user.id);
 
 watch(flash, (value: any) => {
   if (value?.success) {
@@ -136,7 +137,7 @@ const submitForm = () => {
         <!-- Navbar Mengambang -->
         <nav class="fixed top-0 left-0 z-50 flex w-full items-center justify-between bg-white px-6 py-4 shadow-md">
             <div class="flex items-center gap-4">
-                <Link href="/profile" class="flex items-center gap-1 text-gray-700 hover:underline">
+                <Link :href="route('profile.user', userId)" class="flex items-center gap-1 text-gray-700 hover:underline">
                     <UserCircleIcon class="h-6 w-6 text-[#00bfa8]" />
                     <span class="hidden sm:inline">Profil</span>
                 </Link>

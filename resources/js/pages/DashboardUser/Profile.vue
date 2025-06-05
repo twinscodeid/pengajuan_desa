@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Head, Link, usePage, router, useForm } from '@inertiajs/vue3';
-import { ref, onMounted, watch, computed } from 'vue';
+import { ref, onMounted, watch, computed, defineProps } from 'vue';
 import { LogOut } from 'lucide-vue-next';
 import { notify } from '@kyvg/vue3-notification';
 
@@ -19,11 +19,14 @@ watch(flash, (value: any) => {
 }, { immediate: true });
 
 const user = usePage().props.auth.user;
+const props = defineProps({
+    dataUser: Object
+})
 type User = {
     name: string,
     email: string,
 }
-const role = ref(user.role);
+const role = ref(props?.dataUser?.role.name);
 const form = useForm<User>({
     name: '',
     email: '',

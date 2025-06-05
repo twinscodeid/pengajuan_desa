@@ -8,7 +8,7 @@ import { Chart } from "chart.js/auto";
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Dashboard Admin',
-        href: '/dashboard-admin',
+        href: '/admin/dashboard-admin',
     },
 ];
 
@@ -92,7 +92,7 @@ onMounted(() => {
             <div class="flex flex-wrap -mx-3">
                 <!-- card1 -->
                 <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
-                    <div class="relative flex flex-col min-w-0 break-words bg-white shadow rounded-2xl bg-clip-border">
+                    <div class="relative flex flex-col min-w-0 break-words bg-white dark:bg-gray-800 shadow rounded-2xl bg-clip-border">
                         <div class="flex-auto p-4">
                             <div class="flex flex-row items-center justify-between -mx-3">
                                 <div class="flex-none w-2/3 max-w-full px-3">
@@ -118,7 +118,7 @@ onMounted(() => {
 
                 <!-- card2 -->
                 <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
-                    <div class="relative flex flex-col min-w-0 break-words bg-white shadow rounded-2xl bg-clip-border">
+                    <div class="relative flex flex-col min-w-0 break-words bg-white dark:bg-gray-800 shadow rounded-2xl bg-clip-border">
                         <div class="flex-auto p-4">
                             <div class="flex flex-row items-center justify-between -mx-3">
                                 <div class="flex-none w-2/3 max-w-full px-3">
@@ -143,7 +143,7 @@ onMounted(() => {
 
                 <!-- card3 -->
                 <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
-                    <div class="relative flex flex-col min-w-0 break-words bg-white shadow rounded-2xl bg-clip-border">
+                    <div class="relative flex flex-col min-w-0 break-words bg-white dark:bg-gray-800 shadow rounded-2xl bg-clip-border">
                         <div class="flex-auto p-4">
                             <div class="flex flex-row items-center justify-between -mx-3">
                                 <div class="flex-none w-2/3 max-w-full px-3">
@@ -168,7 +168,7 @@ onMounted(() => {
 
                 <!-- card4 -->
                 <div class="w-full max-w-full px-3 sm:w-1/2 sm:flex-none xl:w-1/4">
-                    <div class="relative flex flex-col min-w-0 break-words bg-white shadow rounded-2xl bg-clip-border">
+                    <div class="relative flex flex-col min-w-0 break-words bg-white dark:bg-gray-800 shadow rounded-2xl bg-clip-border">
                         <div class="flex-auto p-4">
                             <div class="flex flex-row items-center justify-between -mx-3">
                                 <div class="flex-none w-2/3 max-w-full px-3">
