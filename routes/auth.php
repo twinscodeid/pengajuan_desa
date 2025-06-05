@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\Admin\AdminPegawaiDesaController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -53,4 +54,17 @@ Route::middleware('auth')->group(function () {
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
+});
+
+// route auth admin pegawai desa
+
+Route::middleware('guest:pegawai')->group(function () {
+    Route::prefix('admin')->group(function () {
+        Route::get('/login-pegawai-desa', [AdminPegawaiDesaController::class, 'index'])->name('login-pegawai-desa.index');
+        Route::post('/login-pegawai-desa/admin', [AdminPegawaiDesaController::class, 'login'])->name('login-pegawai-desa.admin');
+    });
+});
+
+Route::middleware('auth:pegawai')->group(function () {
+    Route::post('logout-pegawai-desa', [AdminPegawaiDesaController::class, 'logout'])->name('logout-pegawai-desa');
 });

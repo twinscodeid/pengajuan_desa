@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use App\Notifications\SuratIjinKegiatanNotification;
 use Illuminate\Validation\ValidationException;
+use App\Models\PegawaiDesa;
+
+use function Pest\Laravel\get;
 
 class SuratIjinKegiatanController extends Controller
 {
@@ -46,7 +49,7 @@ class SuratIjinKegiatanController extends Controller
             $this->suratIjinKegiatanService->createSuratIjinKegiatan($data);
 
             // ambil data admin
-            $admin = User::where('role', 'admin')->first();
+            $admin = PegawaiDesa::where('role_id', '1')->first();
             $admin->notify(new AdminNotification($admin));
 
             return redirect()->route('dashboard.index.user')->with('success', 'Surat Ijin Kegiatan berhasil dibuat.');

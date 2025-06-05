@@ -1,13 +1,14 @@
 <?php
 
+
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class User extends Authenticatable
+
+class PegawaiDesa extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -17,9 +18,13 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
+    protected $guard = 'pegawai';
+    protected $table = 'pegawai_desa';
+
     protected $fillable = [
         'name',
         'email',
+        'jabatan',
         'password',
         'role_id',
     ];
@@ -50,28 +55,5 @@ class User extends Authenticatable
     public function role()
     {
         return $this->belongsTo(Role::class);
-    }
-
-    public function suratIjinKegiatan()
-    {
-        return $this->hasMany(SuratIjinKegiatan::class);
-    }
-    public function pelaporanMasyarakat()
-    {
-        return $this->hasMany(PelaporanMasyarakat::class);
-    }
-    public function bantuanSosial()
-    {
-        return $this->hasMany(BantuanSosial::class);
-    }
-
-    public static function getTotalRoleUser()
-    {
-        return self::where('role_id', 2)->count();
-    }
-
-    public static function getProfileRoleUser($id)
-    {
-        return self::with('role')->where('id', $id)->first();
     }
 }

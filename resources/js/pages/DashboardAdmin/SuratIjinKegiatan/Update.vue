@@ -9,21 +9,21 @@ import { notify } from '@kyvg/vue3-notification';
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Surat Ijin Kegiatan',
-        href: '/surat-ijin-kegiatan-get',
+        href: '/admin/surat-ijin-kegiatan-get',
     },
 ];
 
 const flash = computed(() => usePage().props.flash);
 
 watch(flash, (value: any) => {
-  if (value?.success) {
-    notify({
-      title: "Sukses!",
-      text: value.success,
-      type: "success",
-      duration: 3000,
-    });
-  }
+    if (value?.success) {
+        notify({
+            title: "Sukses!",
+            text: value.success,
+            type: "success",
+            duration: 3000,
+        });
+    }
 }, { immediate: true });
 
 type SuratIjinKegiatanUpdate = {
@@ -49,33 +49,33 @@ const formUpdate = useForm<SuratIjinKegiatanUpdate>({
 
 // handle data props
 const props = defineProps<{
-  SuratIjinKegiatanByIdUpdate: any
+    SuratIjinKegiatanByIdUpdate: any
 }>()
 
 onMounted(() => {
     formUpdate.nama = props.SuratIjinKegiatanByIdUpdate.nama
-  formUpdate.alamat = props.SuratIjinKegiatanByIdUpdate.alamat
-  formUpdate.tempat_kegiatan = props.SuratIjinKegiatanByIdUpdate.tempat_kegiatan
-  formUpdate.tanggal_kegiatan = props.SuratIjinKegiatanByIdUpdate.tanggal_kegiatan
-  formUpdate.no_hp = props.SuratIjinKegiatanByIdUpdate.no_hp
-  formUpdate.jenis_kelamin = props.SuratIjinKegiatanByIdUpdate.jenis_kelamin
-  formUpdate.tujuan_kegiatan = props.SuratIjinKegiatanByIdUpdate.tujuan_kegiatan
+    formUpdate.alamat = props.SuratIjinKegiatanByIdUpdate.alamat
+    formUpdate.tempat_kegiatan = props.SuratIjinKegiatanByIdUpdate.tempat_kegiatan
+    formUpdate.tanggal_kegiatan = props.SuratIjinKegiatanByIdUpdate.tanggal_kegiatan
+    formUpdate.no_hp = props.SuratIjinKegiatanByIdUpdate.no_hp
+    formUpdate.jenis_kelamin = props.SuratIjinKegiatanByIdUpdate.jenis_kelamin
+    formUpdate.tujuan_kegiatan = props.SuratIjinKegiatanByIdUpdate.tujuan_kegiatan
 })
 
 watch(
-  () => props.SuratIjinKegiatanByIdUpdate,
-  (newVal: any) => {
-    if (!formUpdate.isDirty) {
-      formUpdate.nama = newVal.nama
-      formUpdate.alamat = newVal.alamat
-      formUpdate.tempat_kegiatan = newVal.tempat_kegiatan
-      formUpdate.tanggal_kegiatan = newVal.tanggal_kegiatan
-      formUpdate.no_hp = newVal.no_hp
-      formUpdate.jenis_kelamin = newVal.jenis_kelamin
-      formUpdate.tujuan_kegiatan = newVal.tujuan_kegiatan
-    }
-  },
-  { deep: true }
+    () => props.SuratIjinKegiatanByIdUpdate,
+    (newVal: any) => {
+        if (!formUpdate.isDirty) {
+            formUpdate.nama = newVal.nama
+            formUpdate.alamat = newVal.alamat
+            formUpdate.tempat_kegiatan = newVal.tempat_kegiatan
+            formUpdate.tanggal_kegiatan = newVal.tanggal_kegiatan
+            formUpdate.no_hp = newVal.no_hp
+            formUpdate.jenis_kelamin = newVal.jenis_kelamin
+            formUpdate.tujuan_kegiatan = newVal.tujuan_kegiatan
+        }
+    },
+    { deep: true }
 )
 
 // handle update
@@ -100,32 +100,45 @@ const handleUpdate = () => {
 
         <Head title="Edit Surat Ijin Kegiatan" />
         <AppLayout :breadcrumbs="breadcrumbs">
-            <Notifications/>
-            <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-                <h1 class="text-2xl mb-4">Update Surat Ijin Kegiatan</h1>
+            <Notifications />
+            <div class="flex h-full flex-1 flex-col gap-4 p-4 bg-white dark:bg-gray-900">
+                <h1 class="text-2xl mb-4 text-gray-900 dark:text-gray-200">Update Surat Ijin Kegiatan</h1>
                 <form @submit.prevent="handleUpdate" class="space-y-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Kolom Kiri -->
                         <div class="space-y-4">
                             <div>
-                                <label for="nama" class="block mb-1 font-medium text-sm text-gray-700">Nama</label>
-                                <Input id="nama" class="w-full" v-model="formUpdate.nama" />
+                                <label for="nama"
+                                    class="block mb-1 font-medium text-sm text-gray-700 dark:text-gray-300">Nama</label>
+                                <Input id="nama"
+                                    class="w-full rounded-md border border-gray-300 bg-white text-gray-900 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
+                                    v-model="formUpdate.nama" />
                             </div>
 
                             <div>
-                                <label for="alamat" class="block mb-1 font-medium text-sm text-gray-700">Alamat</label>
-                                <Input id="alamat" class="w-full" v-model="formUpdate.alamat" />
+                                <label for="alamat"
+                                    class="block mb-1 font-medium text-sm text-gray-700 dark:text-gray-300">Alamat</label>
+                                <Input id="alamat"
+                                    class="w-full rounded-md border border-gray-300 bg-white text-gray-900 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
+                                    v-model="formUpdate.alamat" />
                             </div>
 
                             <div>
-                                <label for="tempat_kegiatan" class="block mb-1 font-medium text-sm text-gray-700">Tempat
+                                <label for="tempat_kegiatan"
+                                    class="block mb-1 font-medium text-sm text-gray-700 dark:text-gray-300">Tempat
                                     Kegiatan</label>
-                                <Input id="tempat_kegiatan" class="w-full" v-model="formUpdate.tempat_kegiatan" />
+                                <Input id="tempat_kegiatan"
+                                    class="w-full rounded-md border border-gray-300 bg-white text-gray-900 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
+                                    v-model="formUpdate.tempat_kegiatan" />
                             </div>
 
                             <div>
-                                <label for="no_hp" class="block mb-1 font-medium text-sm text-gray-700">No HP</label>
-                                <Input id="no_hp" type="text" class="w-full" v-model="formUpdate.no_hp" />
+                                <label for="no_hp"
+                                    class="block mb-1 font-medium text-sm text-gray-700 dark:text-gray-300">No
+                                    HP</label>
+                                <Input id="no_hp" type="text"
+                                    class="w-full rounded-md border border-gray-300 bg-white text-gray-900 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
+                                    v-model="formUpdate.no_hp" />
                             </div>
                         </div>
 
@@ -133,15 +146,19 @@ const handleUpdate = () => {
                         <div class="space-y-4">
                             <div>
                                 <label for="tanggal_kegiatan"
-                                    class="block mb-1 font-medium text-sm text-gray-700">Tanggal Kegiatan</label>
-                                <Input id="tanggal_kegiatan" type="date" class="w-full"
+                                    class="block mb-1 font-medium text-sm text-gray-700 dark:text-gray-300">Tanggal
+                                    Kegiatan</label>
+                                <Input id="tanggal_kegiatan" type="date"
+                                    class="w-full rounded-md border border-gray-300 bg-white text-gray-900 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
                                     v-model="formUpdate.tanggal_kegiatan" />
                             </div>
 
                             <div>
-                                <label for="jenis_kelamin" class="block mb-1 font-medium text-sm text-gray-700">Jenis
+                                <label for="jenis_kelamin"
+                                    class="block mb-1 font-medium text-sm text-gray-700 dark:text-gray-300">Jenis
                                     Kelamin</label>
-                                <select id="jenis_kelamin" class="w-full rounded-md border p-2 border-gray-300"
+                                <select id="jenis_kelamin"
+                                    class="w-full rounded-md border border-gray-300 bg-white text-gray-900 p-2 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
                                     v-model="formUpdate.jenis_kelamin">
                                     <option value="" disabled>Pilih jenis kelamin</option>
                                     <option value="Laki-laki">Laki-laki</option>
@@ -150,21 +167,24 @@ const handleUpdate = () => {
                             </div>
 
                             <div>
-                                <label for="tujuan_kegiatan" class="block mb-1 font-medium text-sm text-gray-700">Tujuan
+                                <label for="tujuan_kegiatan"
+                                    class="block mb-1 font-medium text-sm text-gray-700 dark:text-gray-300">Tujuan
                                     Kegiatan</label>
-                                <textarea  id="tujuan_kegiatan" v-model="formUpdate.tujuan_kegiatan" class="w-full rounded-md border p-2 border-gray-300"></textarea>
+                                <textarea id="tujuan_kegiatan" v-model="formUpdate.tujuan_kegiatan"
+                                    class="w-full rounded-md border border-gray-300 p-2 bg-white text-gray-900 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"></textarea>
                             </div>
                         </div>
                     </div>
 
                     <div class="flex justify-end">
-                        <button type="submit" class="px-4 cursor-pointer py-2 bg-[#00bfa8] text-white rounded hover:bg-[#00bfa8]/80">
+                        <button type="submit"
+                            class="px-4 cursor-pointer py-2 bg-[#00bfa8] text-white rounded hover:bg-[#00bfa8]/80">
                             Simpan Perubahan
                         </button>
                     </div>
                 </form>
-
             </div>
+
         </AppLayout>
 
     </div>

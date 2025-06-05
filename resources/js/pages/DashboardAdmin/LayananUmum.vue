@@ -12,7 +12,7 @@ import { notify } from '@kyvg/vue3-notification';
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Layanan Umum',
-        href: '/layanan-umum',
+        href: '/admin/layanan-umum',
     },
 ];
 
@@ -35,7 +35,7 @@ watch(flash, (value: any) => {
 const selectedLayananUmum = ref('surat_ijin_kegiatan');
 
 watch(selectedLayananUmum, (value: any) => {
-  router.get('/layanan-umum', { layanan: value }, {
+  router.get('/admin/layanan-umum', { layanan: value }, {
     preserveScroll: true,
     preserveState: true,
     replace: true,
@@ -63,7 +63,7 @@ const dataBantuanSosial = computed(() => props?.dataBantuanSosial);
              <!-- notifikasi -->
         <Notifications/>
             <!-- option layanan umum -->
-             <select v-model="selectedLayananUmum" class="border border-gray-300 rounded-md p-2">
+             <select v-model="selectedLayananUmum" class="border border-gray-300 dark:bg-gray-800 rounded-md p-2">
                 <option value="surat_ijin_kegiatan">Surat Ijin Kegiatan</option>
                 <option value="bantuan_sosial">Bantuan Sosial</option>
                 <option value="pelaporan_masyarakat">Pelaporan Masyarakat</option>

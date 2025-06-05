@@ -5,6 +5,8 @@ namespace App\Http\Middleware\Admin;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
+
 
 class AdminRole
 {
@@ -15,9 +17,11 @@ class AdminRole
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->check() && auth()->user()->role === 'admin') {
-            return $next($request);
+        // Pertama, cek apakah ada pengguna yang login dengan guard 'pegawai'
+        if (!Auth::guard('pegawai')->check()) {
+            return redirect('admin/login-pegawai-desa')->with('error', 'Akses ditolak!');
         }
-        return redirect('/')->with('error', 'Akses ditolak!');
+
+        return $next($request);
     }
 }

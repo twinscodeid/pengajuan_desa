@@ -10,12 +10,12 @@ import AppLogo from './AppLogo.vue';
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard Admin',
-        href: '/dashboard-admin',
+        href: '/admin/dashboard-admin',
         icon: LayoutGrid,
     },
     {
         title: 'Layanan Umum',
-        href: '/layanan-umum',
+        href: '/admin/layanan-umum',
         icon: LayoutGrid,
     },
 ];

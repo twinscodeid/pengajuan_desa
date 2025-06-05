@@ -15,7 +15,7 @@ const props = defineProps({
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Surat Ijin Kegiatan',
-        href: '/pelaporan-masyarakat',
+        href: '/admin/pelaporan-masyarakat',
     },
 ];
 const data = props?.dataSuratIjinKegiatanById;
@@ -25,11 +25,11 @@ const data = props?.dataSuratIjinKegiatanById;
 
     <Head title="Detail Surat Ijin Kegiatan" />
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-            <h2 class="text-2xl font-bold text-slate-800">Detail Surat Ijin Kegiatan</h2>
-            <div class="p-6 sm:p-8 rounded-lg space-y-6 shadow">
+        <div class="flex h-full flex-1 flex-col gap-4  p-4 bg-white dark:bg-gray-900">
+            <h2 class="text-2xl font-bold text-slate-800 dark:text-slate-200">Detail Surat Ijin Kegiatan</h2>
+            <div class="p-6 sm:p-8 rounded-lg space-y-6 shadow dark:shadow-lg bg-white dark:bg-gray-800">
 
-                <div class="grid md:grid-cols-2 gap-6 text-sm text-slate-700">
+                <div class="grid md:grid-cols-2 gap-6 text-sm text-slate-700 dark:text-slate-300">
                     <div class="space-y-2">
                         <p><span class="font-semibold">Nama:</span> {{ data?.nama }}</p>
                         <p><span class="font-semibold">Alamat:</span> {{ data?.alamat }}</p>
@@ -47,15 +47,17 @@ const data = props?.dataSuratIjinKegiatanById;
                 </div>
 
                 <div>
-                    <h3 class="text-lg font-semibold mb-2 text-slate-800">Surat Pengantar RT/RW</h3>
+                    <h3 class="text-lg font-semibold mb-2 text-slate-800 dark:text-slate-200">Surat Pengantar RT/RW</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" v-viewer>
                         <img v-for="img in data?.surat_pengantar_r_t_r_w" :key="img.id"
-                            :src="`/private-image/${img.image_path.split('/').pop()}`" alt="Surat Pengantar"
+                            :src="`/admin/private-image/${img.image_path.split('/').pop()}`" alt="Surat Pengantar"
                             class="rounded shadow border object-cover w-full h-60 cursor-zoom-in" />
                     </div>
                 </div>
+
             </div>
         </div>
+
     </AppLayout>
 
 

@@ -33,33 +33,38 @@ const sendEmail = (id: any) => {
 <template>
     <div>
         <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-100 whitespace-nowrap">
+            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <thead class="bg-gray-100 dark:bg-gray-800 whitespace-nowrap">
                     <tr>
-                        <th class="px-4 py-4 text-left text-xs font-semibold text-slate-900 uppercase tracking-wider">
+                        <th
+                            class="px-4 py-4 text-left text-xs font-semibold text-slate-900 dark:text-white uppercase tracking-wider">
                             Nama
                         </th>
-                        <th class="px-4 py-4 text-left text-xs font-semibold text-slate-900 uppercase tracking-wider">
+                        <th
+                            class="px-4 py-4 text-left text-xs font-semibold text-slate-900 dark:text-white uppercase tracking-wider">
                             Tempat Kegiatan
                         </th>
-                        <th class="px-4 py-4 text-left text-xs font-semibold text-slate-900 uppercase tracking-wider">
+                        <th
+                            class="px-4 py-4 text-left text-xs font-semibold text-slate-900 dark:text-white uppercase tracking-wider">
                             Tanggal Kegiatan
                         </th>
-                        <th class="px-4 py-4 text-left text-xs font-semibold text-slate-900 uppercase tracking-wider">
+                        <th
+                            class="px-4 py-4 text-left text-xs font-semibold text-slate-900 dark:text-white uppercase tracking-wider">
                             Actions
                         </th>
                     </tr>
                 </thead>
 
-                <tbody class="bg-white divide-y divide-gray-200 whitespace-nowrap">
+                <tbody
+                    class="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700 whitespace-nowrap">
                     <tr v-for="item in props?.dataIjin?.data" :key="item.id">
-                        <td class="px-4 py-4 text-sm text-slate-900 font-medium">
+                        <td class="px-4 py-4 text-sm text-slate-900 dark:text-white font-medium">
                             {{ item.nama }}
                         </td>
-                        <td class="px-4 py-4 text-sm text-slate-600 font-medium">
+                        <td class="px-4 py-4 text-sm text-slate-600 dark:text-gray-300 font-medium">
                             {{ item.tempat_kegiatan }}
                         </td>
-                        <td class="px-4 py-4 text-sm text-slate-600 font-medium">
+                        <td class="px-4 py-4 text-sm text-slate-600 dark:text-gray-300 font-medium">
                             {{ formatDate(item.tanggal_kegiatan) }}
                         </td>
                         <td class="px-4 py-4 text-sm">
@@ -89,10 +94,10 @@ const sendEmail = (id: any) => {
                                 </button>
                             </div>
                         </td>
-
                     </tr>
                 </tbody>
             </table>
+
             <!-- handle paginate -->
             <div class="flex justify-end items-center gap-2 mt-4">
                 <Button variant="outline" size="sm" class="py-1 px-3 bg-[#bbe5e1] rounded-md cursor-pointer"
