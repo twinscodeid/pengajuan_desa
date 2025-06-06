@@ -12,7 +12,7 @@ use App\Http\Requests\SuratIjinKegiatan;
 
 Route::get('/', function () {
     return Inertia::render('HomePage');
-})->name('home');
+})->name('home')->middleware('web');
 
 // route user
 Route::middleware(['auth', 'user.role'])->group(function () {

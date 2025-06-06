@@ -35,7 +35,7 @@ class AuthenticatedSessionController extends Controller
 
         $user = auth()->user();
 
-        if ($user->role_id === 2) {
+        if ($user->role_id == "2") {
             return redirect()->intended(route('dashboard.index.user', absolute: false));
         }
 

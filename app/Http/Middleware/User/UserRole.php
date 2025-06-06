@@ -18,7 +18,6 @@ class UserRole
     {
         // 1. Cek apakah ada pengguna yang login dengan guard 'web'
         if (Auth::guard('web')->check()) {
-            // 2. Jika ya, baru ambil objek user dan cek role_id-nya
             if (Auth::guard('web')->user()->role_id === 2) {
                 return $next($request); // Lanjutkan permintaan
             }
