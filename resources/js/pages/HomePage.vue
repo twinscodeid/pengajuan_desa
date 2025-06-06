@@ -14,7 +14,7 @@ import { Head, Link } from '@inertiajs/vue3';
             <div v-if="$page.props.auth.user?.role_id === 2">
                 <Link :href="route('dashboard.index.user')" class="text-blue-600 hover:underline">Dashboard</Link>
             </div>
-            <div v-else-if="$page.props.auth.pegawai?.role_id === 1">
+            <div v-else-if="$page.props.auth.user?.role_id === 1">
                 <Link :href="route('dashboard.index.admin')" class="text-blue-600 hover:underline">Dashboard</Link>
             </div>
             <div v-else>

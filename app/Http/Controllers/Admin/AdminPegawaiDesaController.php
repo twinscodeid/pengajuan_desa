@@ -24,7 +24,7 @@ class AdminPegawaiDesaController extends Controller
 
         $user = Auth::guard('pegawai')->user();
 
-        if ($user->role_id === 1) {
+        if ($user->role_id == "1") {
             return redirect()->route('dashboard.index.admin')->with('success', 'Selamat datang, ' . $user->name);
         }
 
